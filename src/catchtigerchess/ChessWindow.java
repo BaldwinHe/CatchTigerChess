@@ -46,6 +46,38 @@ public class ChessWindow extends JFrame {
     public static ChessPieces[][] getChessPieces(){
         return chessBoarder.getChessPieces();
     }
+    
+    public static void eatChess(int x, int y){
+        if(PlayerNow.equals("Tiger")){
+            if(x-1>=0 && x-1<=4 && x+1>=0 &&x+1<=4){
+                if( (chessBoarder.hasRoad(x,y,x-1,y) && chessBoarder.hasPiece(x-1, y)) && (chessBoarder.hasPiece(x+1, y)&& chessBoarder.hasRoad(x,y,x+1,y))){
+                chessBoarder.eatPiece(x-1, y);
+                chessBoarder.eatPiece(x+1, y);
+                chessBoarder.killDog(2);
+                }
+            }
+            if(y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
+                if((chessBoarder.hasRoad(x,y,x,y-1) && chessBoarder.hasPiece(x, y-1)) && (chessBoarder.hasPiece(x, y+1) && chessBoarder.hasRoad(x,y,x,y+1))){
+                chessBoarder.eatPiece(x, y-1);
+                chessBoarder.eatPiece(x, y+1);
+                chessBoarder.killDog(2);
+                } 
+            }
+            if(x-1>=0 && x-1<=4 && x+1>=0 && x+1<=4 && y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
+                if((chessBoarder.hasRoad(x,y,x-1,y-1) && chessBoarder.hasPiece(x-1, y-1)) && (chessBoarder.hasPiece(x+1, y+1) && chessBoarder.hasRoad(x,y,x+1,y+1))){
+                chessBoarder.eatPiece(x-1, y-1);
+                chessBoarder.eatPiece(x+1, y+1);
+                chessBoarder.killDog(2);
+                }
+               if((chessBoarder.hasRoad(x,y,x-1,y+1) && chessBoarder.hasPiece(x-1, y+1)) && (chessBoarder.hasPiece(x+1, y-1) && chessBoarder.hasRoad(x,y,x+1,y-1))){
+                chessBoarder.eatPiece(x-1, y+1);
+                chessBoarder.eatPiece(x+1, y-1);
+                chessBoarder.killDog(2);
+                }
+            }
+            
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

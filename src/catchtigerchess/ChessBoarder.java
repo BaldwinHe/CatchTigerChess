@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package catchtigerchess;
+import config.Config;
 import java.awt.Point;
 import java.lang.Math;
 import catchtigerchess.ChessWindow;
@@ -18,7 +19,9 @@ import java.awt.image.ImageObserver;
  */
 public class ChessBoarder {
     private static ChessPieces[][] chessPieces;
-    
+    private static boolean[][][][] map;
+    private static int dogCount = 16;
+        
     private Point selectPoint;
     private boolean isRealDes(int x,int y){
         if(x>=0&&x<=4&&y>=2&&y<=6) return true;
@@ -26,12 +29,23 @@ public class ChessBoarder {
         else if(y == 1 && x >= 1 && x <= 3) return true;
         else return false;
     }
+    
     private boolean isInDistance(Point src, Point des){
-        int dx = Math.abs(src.x - des.x);
-        int dy = Math.abs(src.y - des.y);
-        if(dx == 1 && dy == 1) return true;
-        else if(dx == 1 && dy == 0) return true;
-        else if(dx == 0 && dy == 1) return true;
+        if(map[src.y][src.x][des.y][des.x] == true)
+            return true;
+        else
+            return false;
+//        int dx = Math.abs(src.x - des.x);
+//        int dy = Math.abs(src.y - des.y);
+//        if(dx == 1 && dy == 1) return true;
+//        else if(dx == 1 && dy == 0) return true;
+//        else if(dx == 0 && dy == 1) return true;
+//        else return false;
+
+    }
+    public boolean hasRoad(int src_x, int src_y,int des_x ,int des_y){
+        if(map[src_y][src_x][des_y][des_x] == true)
+            return true;
         else return false;
     }
     public Point getPoint(){
@@ -44,6 +58,9 @@ public class ChessBoarder {
         chessPieces = new ChessPieces[7][5];
         selectPoint = new Point();
         selectPoint = null;
+        map = new boolean[7][5][7][5];
+        Config.init_map();
+        map = Config.map;
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 5; j++) {
                 chessPieces[i][j] = null;
@@ -90,6 +107,22 @@ public class ChessBoarder {
                 return false;
             }
         }
+    }
+    public boolean hasPiece(int x, int y){
+        if(chessPieces[y][x] != null){
+            return true;
+        }else return false;
+    }
+    public void eatPiece(int x, int y){
+        if (chessPieces[y][x] != null){
+            chessPieces[y][x] = null;
+        }
+    }
+    public void killDog(int deadNum){
+        dogCount = dogCount - deadNum ;
+    }
+    public int getDogCount(){
+        return dogCount;
     }
     public ChessPieces[][] getChessPieces(){
         return chessPieces.clone();
