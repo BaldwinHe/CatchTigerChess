@@ -33,7 +33,10 @@
   ```
 ### TODO! (`2019-04-29 -> 2019-05-04`):
 * 需要补的代码都在相应文件的 注释里(*`// TODO:`*):
-  * havaWay[ ][ ][ ][ ] in Config.java
-  * **win**|**eat** in ChessClick.java //写相应的函数
+
+  - [x] havaWay[ ][ ][ ][ ] in Config.java
+  
+  - [ ] **win** in ChessClick.java //写相应的函数
+  - [x] **eat** in ChessClick.java //写相应的函数
   
 ## Good Luck !
