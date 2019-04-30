@@ -17,7 +17,7 @@ public class PlayGame {
             @Override
             public void run() {
                 try {
-                    ChessWindow Chess = new ChessWindow();
+                    ChessWindow Chess = new ChessWindow(1);
                     Chess.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
