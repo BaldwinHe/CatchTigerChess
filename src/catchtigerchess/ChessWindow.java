@@ -19,7 +19,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.awt.event.MouseAdapter;
 import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 /**
  *
  * @author heyanbai
@@ -30,59 +36,89 @@ public class ChessWindow extends JFrame {
     private static String PlayerNow;
     private static ImageIcon TIGERMOVE;
     private static ImageIcon DOGMOVE;
+    private static ImageIcon GAMEOVER;
+    private MouseAdapter MouseListener;
+    private static int gameTime;
+    static Timer timer;
+    private ActionListener updateProBar;
     ChessBoardCanvas chessCanvas;
-    Timer timer;
     
     /**
      * Creates new form ChessWindow
      */
-    public ChessWindow(int totalTime) {
+    public ChessWindow(Integer totalTime) {
         initComponents();
         //System.err.println(this.getClass().getResource("..").getPath());
         TIGERMOVE = new javax.swing.ImageIcon(getClass().getResource("/images/TIGERMOVE.png"));
         DOGMOVE = new javax.swing.ImageIcon(getClass().getResource("/images/DOGMOVE.png"));
-
+        GAMEOVER = new javax.swing.ImageIcon(getClass().getResource("/images/GAMEOVER.png"));
+        
+        totalTimeText.setText("Total Time : " + totalTime.toString() + " minutes");
         PlayerNow = new String("Tiger");
         chessBoarder = new ChessBoarder();
+        MouseListener = new ChessClick();
         
         this.setTitle("CatchTigerChess");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        
         timeLeftBar.setMinimum(0);
         if (totalTime < 0) {
             timeLeftBar.setMaximum(100000000);
-            totalTime = 100000000;
+            gameTime = 100000000;
         }else{
-            timeLeftBar.setMaximum(totalTime*60*1000);
+            gameTime = totalTime*60;
+            timeLeftBar.setMaximum(gameTime);
         }
-        timer = new Timer(totalTime, new ActionListener() {
-            int counter = 1;
+        final Timer timer = new Timer(1000, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
-                timeLeftBar.setValue(++counter);
+            public void actionPerformed(ActionEvent e) {
+                int value = timeLeftBar.getValue() + 1;
+                timeLeftBar.setValue(value);
+            }
+
+        });
+//        long sTime = System.currentTimeMillis(); 
+        timeLeftBar.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+//                System.out.println(timeLeftBar.getValue());
+                Integer min = timeLeftBar.getValue()/60;
+                Integer second = timeLeftBar.getValue()%60;
+                timeNowText.setText("Time Now : " + min.toString() + " m " + second.toString() + " s");
+                if (timeLeftBar.getValue() == gameTime) {
+                    timer.stop();
+//                    long eTime = System.currentTimeMillis();
+                    
+                    setGameStatus("GAMEOVER");
+                    chessCanvas.removeMouseListener(MouseListener);
+//                    System.err.println(eTime - sTime);
+//                    System.exit(0);
+                }
             }
         });
         timer.start();
         chessCanvas = new ChessBoardCanvas();
         chessCanvas.setBounds(0, 0, 500, 700);
         chessCanvas.repaint();
-        chessCanvas.addMouseListener(new ChessClick());
+        chessCanvas.addMouseListener(MouseListener);
         gameBoard.add(chessCanvas);
-        
     }
+    
     public static void setGameStatus(String status){
         if(status.equals("TIGERMOVE")){
-            System.out.println("??");
             gameStatusImage.setIcon(TIGERMOVE);
             gameStatusText.setText("<html><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\">The </font><font color=\"#EFCAC2\" size=\"7\" face=\"Gill Sans\">tiger</font><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\"> is ready to move !</font></html>");
         }
         if(status.equals("DOGMOVE")){
-            System.err.println("!!");
             gameStatusImage.setIcon(DOGMOVE);
             gameStatusText.setText("<html><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\">The </font><font color=\"#EFCAC2\" size=\"7\" face=\"Gill Sans\">dogs</font><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\"> are ready to move !</font></html>");
         }
+        if (status.equals("GAMEOVER")) {
+            gameStatusImage.setIcon(GAMEOVER);
+            gameStatusText.setText("<html><font color=\"#EFCAC2\" size=\"7\" face=\"Gill Sans\">Time out. Game over.</font></html>");
+        }
     }
+    
     public static void setPlayer(){
         System.out.println(PlayerNow);
         if(PlayerNow.equals("Tiger")){
@@ -146,6 +182,9 @@ public class ChessWindow extends JFrame {
         gameStatusImage = new javax.swing.JLabel();
         gameStatusText = new javax.swing.JLabel();
         timeLeftBar = new javax.swing.JProgressBar();
+        timeNowText = new javax.swing.JLabel();
+        totalTimeText = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -196,7 +235,15 @@ public class ChessWindow extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        timeLeftBar.setBorder(new javax.swing.border.MatteBorder(null));
+        timeLeftBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        timeLeftBar.setBorderPainted(false);
+        timeLeftBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        timeNowText.setText("Time Now : 0 m 0 s");
+
+        totalTimeText.setText("Total Time : INFINITY");
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 63, 65));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -208,7 +255,16 @@ public class ChessWindow extends JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(gameStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(timeLeftBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(timeNowText)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(totalTimeText))
+                                .addComponent(timeLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -218,8 +274,14 @@ public class ChessWindow extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(gameStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(timeLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(timeLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(timeNowText)
+                            .addComponent(totalTimeText))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1))
                     .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -233,6 +295,9 @@ public class ChessWindow extends JFrame {
     private static javax.swing.JPanel gameStatus;
     private static javax.swing.JLabel gameStatusImage;
     private static javax.swing.JLabel gameStatusText;
+    private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JProgressBar timeLeftBar;
+    private javax.swing.JLabel timeNowText;
+    private javax.swing.JLabel totalTimeText;
     // End of variables declaration//GEN-END:variables
 }
