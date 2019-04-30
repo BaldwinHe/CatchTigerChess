@@ -58,6 +58,7 @@ public class ChessClick extends MouseAdapter{
                     // TODO : Use haveWay[][][][] to check way.
                     // if move successfully.
                     ChessWindow.chessBoarder.setPoint(null);
+                    ChessWindow.eatChess(x, y);
                     // TODO : if tiger eats dogs ?
                     // TODO : check win ? 
                     refresh(arg);
@@ -70,6 +71,8 @@ public class ChessClick extends MouseAdapter{
     * Refresh ChessBoard
     * @param arg MouseEvent Argument
     */
+    
+    
     private void refresh(MouseEvent arg){
         ((ChessBoardCanvas) arg.getSource()).repaint();
         int height = ((ChessBoardCanvas) arg.getSource()).getHeight();
