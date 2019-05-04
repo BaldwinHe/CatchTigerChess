@@ -55,11 +55,8 @@ public class ChessClick extends MouseAdapter{
                 // have select a piece and the (x, y) is not a piece. 
                 Point p1 = ChessWindow.chessBoarder.getPoint();
                 if (ChessWindow.chessBoarder.pieceMove(p1, new Point(x, y)) == true) {
-                    // TODO : Use haveWay[][][][] to check way.
-                    // if move successfully.
                     ChessWindow.chessBoarder.setPoint(null);
                     ChessWindow.eatChess(x, y);
-                    // TODO : if tiger eats dogs ?
                     // TODO : check win ? 
                     refresh(arg);
                     swapPlayer();

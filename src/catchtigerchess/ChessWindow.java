@@ -119,6 +119,12 @@ public class ChessWindow extends JFrame {
             gameStatusImage.setIcon(GAMEOVER);
             gameStatusText.setText("<html><font color=\"#EFCAC2\" size=\"7\" face=\"Gill Sans\">Time out. Game over.</font></html>");
         }
+        if (status.equals("TIGERWIN")) {
+            System.out.println("TIGER WIN");
+        }
+        if (status.equals("DOGWIN")){
+            System.out.println("DOG WIN");
+        }
     }
     private static boolean isNumeric(String str){  
         Pattern pattern = Pattern.compile("[0-9]*");  
@@ -343,7 +349,10 @@ public class ChessWindow extends JFrame {
         // TODO add your handling code here:
         String inputValue = JOptionPane.showInputDialog(null,"Enter the game time(minutes) to continue","Please",JOptionPane.QUESTION_MESSAGE); 
         Integer time;
-        if(inputValue == null || inputValue.isEmpty() || !isNumeric(inputValue.toString()) || (inputValue.length() > 8)){
+        if(inputValue == null){
+            return;          
+        }else if(inputValue.isEmpty() || !isNumeric(inputValue.toString()) || (inputValue.length() > 8)){
+            
             time = -1;
         }else{
             time = Integer.parseInt(inputValue.toString());
