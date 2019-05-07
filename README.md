@@ -31,12 +31,15 @@
   │       └── ChessClick.java //TODO..
   └── test
   ```
-### TODO! (`2019-04-29 -> 2019-05-04`):
-* 需要补的代码都在相应文件的 注释里(*`// TODO:`*):
+### TODO! :
+> 需要补的代码都在相应文件的 注释里(*`// TODO:`*):
+  * (`2019-04-29 -> 2019-05-04`)
+    - [x] havaWay[ ][ ][ ][ ] in Config.java _@杨焕煜_
 
-  - [x] havaWay[ ][ ][ ][ ] in Config.java
+    - [ ] **win** in ChessClick.java _@汪有为_
+    - [x] **eat** in ChessClick.java _@杨焕煜_
   
-  - [ ] **win** in ChessClick.java //写相应的函数
-  - [x] **eat** in ChessClick.java //写相应的函数
+  * (`2019-05-05 -> 2019-05-11`)
+    - [ ] 悔棋操作 _@杨焕煜_
   
-## Good Luck !
+## Good Luck ! 
