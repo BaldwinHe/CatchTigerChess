@@ -33,7 +33,7 @@ public class Config {
        map[1][2][3][2] = true;map[1][2][2][3] = true;
        map[1][3][0][2] = true;map[1][3][2][2] = true;
        map[1][3][1][2] = true;map[2][0][2][1] = true;
-       map[2][0][3][0] = true;map[2][0][3][1] = true;
+       map[2][0][3][0] = true;map[2][0][3][1] = true;map[2][1][2][0] = true;
        map[2][1][2][1] = true;map[2][1][2][2] = true;
        map[2][1][3][1] = true;map[2][2][2][1] = true;
        map[2][2][2][3] = true;map[2][2][1][2] = true;
