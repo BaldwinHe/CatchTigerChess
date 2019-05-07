@@ -51,7 +51,6 @@ public class ChessWindow extends JFrame {
      */
     public ChessWindow(Integer totalTime) {
         initComponents();
-        //System.err.println(this.getClass().getResource("..").getPath());
         TIGERMOVE = new javax.swing.ImageIcon(getClass().getResource("/images/TIGERMOVE.png"));
         DOGMOVE = new javax.swing.ImageIcon(getClass().getResource("/images/DOGMOVE.png"));
         TIME = new javax.swing.ImageIcon(getClass().getResource("/images/time.png"));
@@ -192,6 +191,7 @@ public class ChessWindow extends JFrame {
         gameStatus = new javax.swing.JPanel();
         gameStatusImage = new javax.swing.JLabel();
         gameStatusText = new javax.swing.JLabel();
+        regretButton = new javax.swing.JButton();
         timeLeftBar = new javax.swing.JProgressBar();
         timeNowText = new javax.swing.JLabel();
         totalTimeText = new javax.swing.JLabel();
@@ -224,6 +224,13 @@ public class ChessWindow extends JFrame {
         gameStatusText.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         gameStatusText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        regretButton.setText("I regret it so much");
+        regretButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regretButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout gameStatusLayout = new javax.swing.GroupLayout(gameStatus);
         gameStatus.setLayout(gameStatusLayout);
         gameStatusLayout.setHorizontalGroup(
@@ -231,9 +238,15 @@ public class ChessWindow extends JFrame {
             .addGroup(gameStatusLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(gameStatusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(gameStatusText, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(gameStatusLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(gameStatusText, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(gameStatusLayout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addComponent(regretButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         gameStatusLayout.setVerticalGroup(
             gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,7 +257,9 @@ public class ChessWindow extends JFrame {
             .addGroup(gameStatusLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(gameStatusText, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(regretButton)
+                .addGap(64, 64, 64))
         );
 
         timeLeftBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -379,6 +394,10 @@ public class ChessWindow extends JFrame {
         }
     }//GEN-LAST:event_gameControllButtonMouseClicked
 
+    private void regretButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regretButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_regretButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel gameBoard;
@@ -386,6 +405,7 @@ public class ChessWindow extends JFrame {
     private static javax.swing.JPanel gameStatus;
     private static javax.swing.JLabel gameStatusImage;
     private static javax.swing.JLabel gameStatusText;
+    private javax.swing.JButton regretButton;
     private static javax.swing.JProgressBar timeLeftBar;
     private javax.swing.JLabel timeNowText;
     private javax.swing.JLabel totalTimeText;
