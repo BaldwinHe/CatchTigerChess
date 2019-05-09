@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package catchtigerchess;
+import config.Config;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,6 +28,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.JOptionPane;
 import java.util.regex.Pattern;
+import catchtigerchess.regretData;
+import java.awt.Point;
 /**
  *
  * @author heyanbai
@@ -151,29 +154,38 @@ public class ChessWindow extends JFrame {
         if(PlayerNow.equals("Tiger")){
             if(x-1>=0 && x-1<=4 && x+1>=0 &&x+1<=4){
                 if( (chessBoarder.hasRoad(x,y,x-1,y) && chessBoarder.hasPiece(x-1, y)) && (chessBoarder.hasPiece(x+1, y)&& chessBoarder.hasRoad(x,y,x+1,y))){
-                chessBoarder.eatPiece(x-1, y);
-                chessBoarder.eatPiece(x+1, y);
+                chessBoarder.delPiece(x-1, y);
+                chessBoarder.delPiece(x+1, y);
                 chessBoarder.killDog(2);
+                Config.regretTemp.degree_0 = true;
                 }
+                else Config.regretTemp.degree_0 = false;
             }
             if(y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
                 if((chessBoarder.hasRoad(x,y,x,y-1) && chessBoarder.hasPiece(x, y-1)) && (chessBoarder.hasPiece(x, y+1) && chessBoarder.hasRoad(x,y,x,y+1))){
-                chessBoarder.eatPiece(x, y-1);
-                chessBoarder.eatPiece(x, y+1);
+                chessBoarder.delPiece(x, y-1);
+                chessBoarder.delPiece(x, y+1);
                 chessBoarder.killDog(2);
+                Config.regretTemp.degree_90 = true;
                 } 
+                else Config.regretTemp.degree_90 = false;
             }
             if(x-1>=0 && x-1<=4 && x+1>=0 && x+1<=4 && y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
                 if((chessBoarder.hasRoad(x,y,x-1,y-1) && chessBoarder.hasPiece(x-1, y-1)) && (chessBoarder.hasPiece(x+1, y+1) && chessBoarder.hasRoad(x,y,x+1,y+1))){
-                chessBoarder.eatPiece(x-1, y-1);
-                chessBoarder.eatPiece(x+1, y+1);
+                chessBoarder.delPiece(x-1, y-1);
+                chessBoarder.delPiece(x+1, y+1);
                 chessBoarder.killDog(2);
+                Config.regretTemp.degree_135 = true;
                 }
+                else Config.regretTemp.degree_135 = false;
+                
                if((chessBoarder.hasRoad(x,y,x-1,y+1) && chessBoarder.hasPiece(x-1, y+1)) && (chessBoarder.hasPiece(x+1, y-1) && chessBoarder.hasRoad(x,y,x+1,y-1))){
-                chessBoarder.eatPiece(x-1, y+1);
-                chessBoarder.eatPiece(x+1, y-1);
+                chessBoarder.delPiece(x-1, y+1);
+                chessBoarder.delPiece(x+1, y-1);
                 chessBoarder.killDog(2);
+                Config.regretTemp.degree_45 = true;
                 }
+               else Config.regretTemp.degree_45 = false;
             }
             
         }
@@ -225,6 +237,11 @@ public class ChessWindow extends JFrame {
         gameStatusText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         regretButton.setText("I regret it so much");
+        regretButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regretButtonMouseClicked(evt);
+            }
+        });
         regretButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 regretButtonActionPerformed(evt);
@@ -394,10 +411,42 @@ public class ChessWindow extends JFrame {
         }
     }//GEN-LAST:event_gameControllButtonMouseClicked
 
+    
     private void regretButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regretButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_regretButtonActionPerformed
 
+    private void regretButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regretButtonMouseClicked
+        // TODO add your handling code here:
+        backOneStep();
+        backOneStep();
+        chessCanvas.repaint();
+    }//GEN-LAST:event_regretButtonMouseClicked
+
+    public void backOneStep(){
+        regretData del = new regretData();
+        del = Config.regretStack.pop();
+        System.out.println(del.src_x+" "+del.src_y+" "+del.des_x+" "+del.des_y);
+        chessBoarder.delPiece(del.des_x, del.des_y);
+        chessBoarder.addPiece(del.src_x, del.src_y,del.pieceId);
+        chessBoarder.setPoint(null);
+        if(del.degree_0 == true){
+            chessBoarder.addPiece(del.des_x-1, del.des_y,1);
+            chessBoarder.addPiece(del.des_x+1, del.des_y,1);
+        }
+        if(del.degree_90 == true){
+            chessBoarder.addPiece(del.des_x, del.des_y-1,1);
+            chessBoarder.addPiece(del.src_x, del.src_y+1,1);
+        }
+        if(del.degree_135 == true){
+            chessBoarder.addPiece(del.des_x-1, del.des_y-1,1);
+            chessBoarder.addPiece(del.des_x+1, del.des_y+1,1);
+        }
+        if(del.degree_45 == true){
+            chessBoarder.addPiece(del.des_x-1, del.des_y+1,1);
+            chessBoarder.addPiece(del.des_x+1, del.des_y-1,1);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel gameBoard;

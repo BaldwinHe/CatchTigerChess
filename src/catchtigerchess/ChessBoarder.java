@@ -68,21 +68,21 @@ public class ChessBoarder {
         }
         chessPieces[4][2] = new ChessPieces(0);
         chessPieces[2][0] = new ChessPieces(1);
-        chessPieces[2][1] = new ChessPieces(2);
-        chessPieces[2][2] = new ChessPieces(3);
-        chessPieces[2][3] = new ChessPieces(4);
-        chessPieces[2][4] = new ChessPieces(5);
-        chessPieces[3][0] = new ChessPieces(6);
-        chessPieces[3][4] = new ChessPieces(7);
-        chessPieces[4][0] = new ChessPieces(8);
-        chessPieces[4][4] = new ChessPieces(9);
-        chessPieces[5][0] = new ChessPieces(10);
-        chessPieces[5][4] = new ChessPieces(11);
-        chessPieces[6][0] = new ChessPieces(12);
-        chessPieces[6][1] = new ChessPieces(13);
-        chessPieces[6][2] = new ChessPieces(14);
-        chessPieces[6][3] = new ChessPieces(15);
-        chessPieces[6][4] = new ChessPieces(16);
+        chessPieces[2][1] = new ChessPieces(1);
+        chessPieces[2][2] = new ChessPieces(1);
+        chessPieces[2][3] = new ChessPieces(1);
+        chessPieces[2][4] = new ChessPieces(1);
+        chessPieces[3][0] = new ChessPieces(1);
+        chessPieces[3][4] = new ChessPieces(1);
+        chessPieces[4][0] = new ChessPieces(1);
+        chessPieces[4][4] = new ChessPieces(1);
+        chessPieces[5][0] = new ChessPieces(1);
+        chessPieces[5][4] = new ChessPieces(1);
+        chessPieces[6][0] = new ChessPieces(1);
+        chessPieces[6][1] = new ChessPieces(1);
+        chessPieces[6][2] = new ChessPieces(1);
+        chessPieces[6][3] = new ChessPieces(1);
+        chessPieces[6][4] = new ChessPieces(1);
     }
     /**
     * Move Chess Piece
@@ -97,6 +97,7 @@ public class ChessBoarder {
             if(isRealDes(des.x,des.y)){
                 if(chessPieces[des.y][des.x] != null) return false;
                 if (isInDistance(src,des)){
+                    Config.regretTemp.pieceId = chessPieces[src.y][src.x].id;
                     chessPieces[des.y][des.x] = chessPieces[src.y][src.x];
                     chessPieces[src.y][src.x] = null;
                     return true;
@@ -108,12 +109,21 @@ public class ChessBoarder {
             }
         }
     }
+    public boolean addPiece(int x, int y, int i){
+        if(chessPieces[y][x] != null)
+            return false;
+        else {
+            chessPieces[y][x] = new ChessPieces(i);
+            return true;
+        }
+            
+    }
     public boolean hasPiece(int x, int y){
         if(chessPieces[y][x] != null){
             return true;
         }else return false;
     }
-    public void eatPiece(int x, int y){
+    public void delPiece(int x, int y){
         if (chessPieces[y][x] != null){
             chessPieces[y][x] = null;
         }

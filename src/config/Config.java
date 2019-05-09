@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package config;
-
-
+import catchtigerchess.regretData;
+import java.util.Stack;
 /**
  *
  * @author heyanbai
@@ -15,7 +15,12 @@ public class Config {
     static public int startY = 18;
     static public int distPoint2Point = 100;
     // TODO : define and initialize haveWay[][][][] map;
+    
+    static public Stack<regretData> regretStack = new Stack<regretData>();
+    static public regretData regretTemp = new regretData();
+    
    static public boolean[][][][] map = new boolean [7][5][7][5];
+
    
    static public void init_map(){
        for(int i=0; i<7; i++){

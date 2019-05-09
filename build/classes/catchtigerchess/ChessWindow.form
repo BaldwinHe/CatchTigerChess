@@ -190,6 +190,7 @@
             <Property name="text" type="java.lang.String" value="I regret it so much"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="regretButtonMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regretButtonActionPerformed"/>
           </Events>
         </Component>
