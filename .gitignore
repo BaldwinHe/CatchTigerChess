@@ -3,3 +3,4 @@
 *.class
 build/classes/catchtigerchess/ChessWindow$1.class
 /dist/
+*.class
