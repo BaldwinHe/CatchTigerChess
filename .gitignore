@@ -1,2 +1,20 @@
 
 .DS_Store
+build/classes/.netbeans_automatic_build
+build/classes/.netbeans_update_resources
+*.class
+*.form
+build/classes/images/dog.png
+build/classes/images/DOGMOVE.png
+build/classes/images/frame.png
+build/classes/images/gameBoard.jpg
+build/classes/images/GAMEOVER.png
+build/classes/images/lighting.png
+build/classes/images/mute.png
+build/classes/images/peace.png
+build/classes/images/rock-and-roll.png
+build/classes/images/rock-and-roll.png
+build/classes/images/tiger.png
+build/classes/images/TIGERMOVE.png
+build/classes/images/time.png
+build/classes/images/volume.png
