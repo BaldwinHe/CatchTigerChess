@@ -90,14 +90,14 @@ public class ChessBoarder {
     * @param des Destination Point
     * @return Returns true if successful, otherwise returns false
     */
-    public boolean pieceMove(Point src, Point des){
+    public boolean pieceMove(Point src, Point des, regretData regretTemp){
         if (chessPieces[src.y][src.x] == null){
             return false;
         }else{
             if(isRealDes(des.x,des.y)){
                 if(chessPieces[des.y][des.x] != null) return false;
                 if (isInDistance(src,des)){
-                    Config.regretTemp.pieceId = chessPieces[src.y][src.x].id;
+                    regretTemp.pieceId = chessPieces[src.y][src.x].id;
                     chessPieces[des.y][des.x] = chessPieces[src.y][src.x];
                     chessPieces[src.y][src.x] = null;
                     return true;

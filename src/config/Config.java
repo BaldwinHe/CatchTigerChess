@@ -17,7 +17,7 @@ public class Config {
     // TODO : define and initialize haveWay[][][][] map;
     
     static public Stack<regretData> regretStack = new Stack<regretData>();
-    static public regretData regretTemp = new regretData();
+    
     
    static public boolean[][][][] map = new boolean [7][5][7][5];
 

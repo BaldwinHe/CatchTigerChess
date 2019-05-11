@@ -150,42 +150,42 @@ public class ChessWindow extends JFrame {
         return chessBoarder.getChessPieces();
     }
     
-    public static void eatChess(int x, int y){
+    public static void eatChess(int x, int y, regretData regretTemp){
         if(PlayerNow.equals("Tiger")){
             if(x-1>=0 && x-1<=4 && x+1>=0 &&x+1<=4){
                 if( (chessBoarder.hasRoad(x,y,x-1,y) && chessBoarder.hasPiece(x-1, y)) && (chessBoarder.hasPiece(x+1, y)&& chessBoarder.hasRoad(x,y,x+1,y))){
                 chessBoarder.delPiece(x-1, y);
                 chessBoarder.delPiece(x+1, y);
                 chessBoarder.killDog(2);
-                Config.regretTemp.degree_0 = true;
+                regretTemp.degree_0 = true;
                 }
-                else Config.regretTemp.degree_0 = false;
+                else regretTemp.degree_0 = false;
             }
             if(y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
                 if((chessBoarder.hasRoad(x,y,x,y-1) && chessBoarder.hasPiece(x, y-1)) && (chessBoarder.hasPiece(x, y+1) && chessBoarder.hasRoad(x,y,x,y+1))){
                 chessBoarder.delPiece(x, y-1);
                 chessBoarder.delPiece(x, y+1);
                 chessBoarder.killDog(2);
-                Config.regretTemp.degree_90 = true;
+               regretTemp.degree_90 = true;
                 } 
-                else Config.regretTemp.degree_90 = false;
+                else regretTemp.degree_90 = false;
             }
             if(x-1>=0 && x-1<=4 && x+1>=0 && x+1<=4 && y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
                 if((chessBoarder.hasRoad(x,y,x-1,y-1) && chessBoarder.hasPiece(x-1, y-1)) && (chessBoarder.hasPiece(x+1, y+1) && chessBoarder.hasRoad(x,y,x+1,y+1))){
                 chessBoarder.delPiece(x-1, y-1);
                 chessBoarder.delPiece(x+1, y+1);
                 chessBoarder.killDog(2);
-                Config.regretTemp.degree_135 = true;
+                regretTemp.degree_135 = true;
                 }
-                else Config.regretTemp.degree_135 = false;
+                else regretTemp.degree_135 = false;
                 
                if((chessBoarder.hasRoad(x,y,x-1,y+1) && chessBoarder.hasPiece(x-1, y+1)) && (chessBoarder.hasPiece(x+1, y-1) && chessBoarder.hasRoad(x,y,x+1,y-1))){
                 chessBoarder.delPiece(x-1, y+1);
                 chessBoarder.delPiece(x+1, y-1);
                 chessBoarder.killDog(2);
-                Config.regretTemp.degree_45 = true;
+                regretTemp.degree_45 = true;
                 }
-               else Config.regretTemp.degree_45 = false;
+               else regretTemp.degree_45 = false;
             }
             
         }
@@ -436,7 +436,7 @@ public class ChessWindow extends JFrame {
         }
         if(del.degree_90 == true){
             chessBoarder.addPiece(del.des_x, del.des_y-1,1);
-            chessBoarder.addPiece(del.src_x, del.src_y+1,1);
+            chessBoarder.addPiece(del.des_x, del.des_y+1,1);
         }
         if(del.degree_135 == true){
             chessBoarder.addPiece(del.des_x-1, del.des_y-1,1);
