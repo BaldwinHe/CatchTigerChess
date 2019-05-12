@@ -21,7 +21,8 @@ public class ChessBoarder {
     private static ChessPieces[][] chessPieces;
     private static boolean[][][][] map;
     private static int dogCount = 16;
-        
+    private static int TigerLocationX;//wyw record the location of tiger
+    private static int TigerLocationY;
     private Point selectPoint;
     private boolean isRealDes(int x,int y){
         if(x>=0&&x<=4&&y>=2&&y<=6) return true;
@@ -32,6 +33,8 @@ public class ChessBoarder {
     
     private boolean isInDistance(Point src, Point des){
         if(map[src.y][src.x][des.y][des.x] == true)
+            return true;
+        if(map[des.y][des.x][src.y][src.x] == true)//wyw for two-way map
             return true;
         else
             return false;
@@ -46,6 +49,8 @@ public class ChessBoarder {
     public boolean hasRoad(int src_x, int src_y,int des_x ,int des_y){
         if(map[src_y][src_x][des_y][des_x] == true)
             return true;
+        if(map[des_y][des_x][src_y][src_x] == true)//wyw for two way map
+            return true;
         else return false;
     }
     public Point getPoint(){
@@ -55,6 +60,8 @@ public class ChessBoarder {
         selectPoint = p;
     }
     public ChessBoarder(){
+        this.TigerLocationX=2;//wyw init the lcation of tiger
+        this.TigerLocationY=4;
         chessPieces = new ChessPieces[7][5];
         selectPoint = new Point();
         selectPoint = null;
@@ -100,6 +107,10 @@ public class ChessBoarder {
                     regretTemp.pieceId = chessPieces[src.y][src.x].id;
                     chessPieces[des.y][des.x] = chessPieces[src.y][src.x];
                     chessPieces[src.y][src.x] = null;
+                    if(regretTemp.pieceId == 0){//wyw if the moving chesspiece is tiger
+                        this.TigerLocationX=des.x;//wyw record the location of tiger at present
+                        this.TigerLocationY=des.y;
+                    }
                     return true;
                 }else{
                     return false;
@@ -109,6 +120,30 @@ public class ChessBoarder {
             }
         }
     }
+    public int JudgeWin(){//wyw judge the win 1-tiger win;2-dog win;0-no result
+        if(this.dogCount<=2)//wyw if the dog number is below 2,tiger win
+            return 1;
+        if(this.TigerLocationX==2&&this.TigerLocationY==0)//wyw if the tiger is in trap,dog win
+            return 2;
+        //judge if there is a way for tiger to go
+        if(TigerLocationX+1<=4&&TigerLocationY+1<=6&&this.hasRoad(TigerLocationX, TigerLocationY, TigerLocationX+1, TigerLocationY+1)&&this.chessPieces[TigerLocationY+1][TigerLocationX+1]==null)
+            return 0;
+        if(TigerLocationX-1>=0&&TigerLocationY-1>=0&&this.hasRoad(TigerLocationX, TigerLocationY, TigerLocationX-1, TigerLocationY-1)&&this.chessPieces[TigerLocationY-1][TigerLocationX-1]==null)
+            return 0;
+        if(TigerLocationX+1<=4&&TigerLocationY-1>=0&&this.hasRoad(TigerLocationX, TigerLocationY, TigerLocationX+1, TigerLocationY-1)&&this.chessPieces[TigerLocationY-1][TigerLocationX+1]==null)
+            return 0;
+        if(TigerLocationX-1>=0&&TigerLocationY+1<=6&&this.hasRoad(TigerLocationX, TigerLocationY, TigerLocationX-1, TigerLocationY+1)&&this.chessPieces[TigerLocationY+1][TigerLocationX-1]==null)
+            return 0;
+        if(TigerLocationX+1<=4&&this.hasRoad(TigerLocationX, TigerLocationY, TigerLocationX+1, TigerLocationY)&&this.chessPieces[TigerLocationY][TigerLocationX+1]==null)
+            return 0;
+        if(TigerLocationX-1>=0&&this.hasRoad(TigerLocationX, TigerLocationY, TigerLocationX-1, TigerLocationY)&&this.chessPieces[TigerLocationY][TigerLocationX-1]==null)
+            return 0;
+        if(TigerLocationY+1<=6&&this.hasRoad(TigerLocationX, TigerLocationY, TigerLocationX, TigerLocationY+1)&&this.chessPieces[TigerLocationY+1][TigerLocationX]==null)
+            return 0;
+        if(TigerLocationY-1>=0&&this.hasRoad(TigerLocationX, TigerLocationY, TigerLocationX, TigerLocationY-1)&&this.chessPieces[TigerLocationY-1][TigerLocationX]==null)
+            return 0;
+        return 2;
+    }
     public boolean addPiece(int x, int y, int i){
         if(chessPieces[y][x] != null)
             return false;
@@ -116,7 +151,6 @@ public class ChessBoarder {
             chessPieces[y][x] = new ChessPieces(i);
             return true;
         }
-            
     }
     public boolean hasPiece(int x, int y){
         if(chessPieces[y][x] != null){
