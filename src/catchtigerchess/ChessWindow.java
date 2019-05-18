@@ -38,10 +38,13 @@ public class ChessWindow extends JFrame {
     
     public static ChessBoarder chessBoarder;
     private static String PlayerNow;
-    private static ImageIcon TIGERMOVE;
-    private static ImageIcon DOGMOVE;
-    private static ImageIcon GAMEOVER;
-    private final ImageIcon TIME;
+    private static ImageIcon tigerMoveIcon;
+    private static ImageIcon dogMoveIcon;
+    private static ImageIcon gameOverIcon;
+    private static ImageIcon startBtnIcon;
+    private static ImageIcon restartBtnIcon;
+    private static ImageIcon PeaceIcon;
+    private String totalTimeString;
     private MouseAdapter MouseListener;
     private static int gameTime;
     static Timer timer;
@@ -54,10 +57,12 @@ public class ChessWindow extends JFrame {
      */
     public ChessWindow(Integer totalTime) {
         initComponents();
-        TIGERMOVE = new javax.swing.ImageIcon(getClass().getResource("/images/TIGERMOVE.png"));
-        DOGMOVE = new javax.swing.ImageIcon(getClass().getResource("/images/DOGMOVE.png"));
-        TIME = new javax.swing.ImageIcon(getClass().getResource("/images/time.png"));
-        GAMEOVER = new javax.swing.ImageIcon(getClass().getResource("/images/GAMEOVER.png"));
+        tigerMoveIcon = new javax.swing.ImageIcon(getClass().getResource("/images/TIGERMOVE.png"));
+        dogMoveIcon = new javax.swing.ImageIcon(getClass().getResource("/images/DOGMOVE.png"));
+        gameOverIcon = new javax.swing.ImageIcon(getClass().getResource("/images/GAMEOVER.png"));
+        startBtnIcon = new javax.swing.ImageIcon(getClass().getResource("/images/start.png"));
+        restartBtnIcon = new javax.swing.ImageIcon(getClass().getResource("/images/restart.png"));
+        PeaceIcon = new javax.swing.ImageIcon(getClass().getResource("/images/peace.png"));
         gameIsStart = false;
         PlayerNow = new String("Tiger");
         chessBoarder = new ChessBoarder();
@@ -66,6 +71,7 @@ public class ChessWindow extends JFrame {
         this.setTitle("CatchTigerChess");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
+        regretButton.setEnabled(false);
         chessCanvas = new ChessBoardCanvas();
         chessCanvas.setBounds(0, 0, 500, 700);
         chessCanvas.repaint();
@@ -74,16 +80,18 @@ public class ChessWindow extends JFrame {
         chessCanvas.removeMouseListener(MouseListener);
     }
     private void startNewGame(Integer totalTime){
+        Config.regretStack.clear();
+        regretButton.setEnabled(false);
         gameIsStart = true;
         timeLeftBar.setMinimum(0);
         if (totalTime < 0) {
             timeLeftBar.setMaximum(1000000000);
             gameTime = 1000000000;
-            totalTimeText.setText("Total Time : " + "INFINITY~");
+            totalTimeString = new String("INFINITY");
         }else{
             gameTime = totalTime*60;
             timeLeftBar.setMaximum(gameTime);
-            totalTimeText.setText("Total Time : " + totalTime.toString() + " minutes");
+            totalTimeString = new String(totalTime.toString() + " m");
         }
         timer = new Timer(1000, new ActionListener() {
             @Override
@@ -97,7 +105,7 @@ public class ChessWindow extends JFrame {
             public void stateChanged(ChangeEvent e) {
                 Integer min = timeLeftBar.getValue()/60;
                 Integer second = timeLeftBar.getValue()%60;
-                timeNowText.setText("Time Now : " + min.toString() + " m " + second.toString() + " s");
+                timeNowText.setText("Time Now : " + min.toString() + " m " + second.toString() + " s / " + totalTimeString);
                 if (timeLeftBar.getValue() == gameTime) {
                     timer.stop();
                     
@@ -110,22 +118,33 @@ public class ChessWindow extends JFrame {
     }
     public static void setGameStatus(String status){
         if(status.equals("TIGERMOVE")){
-            gameStatusImage.setIcon(TIGERMOVE);
-            gameStatusText.setText("<html><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\">The </font><font color=\"#EFCAC2\" size=\"7\" face=\"Gill Sans\">tiger</font><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\"> is ready to move !</font></html>");
+            if (regretButton.isEnabled() == false && Config.regretStack.size() >= 2) {
+                regretButton.setEnabled(true);
+            }
+            gameStatusImage.setIcon(tigerMoveIcon);
+            gameStatusText.setText("<html><font color=\"94A7DC\" size=\"5\" face=\"Gill Sans\">The </font><font color=\"#EFCAC2\" size=\"6\" face=\"Gill Sans\">tiger</font><font color=\"94A7DC\" size=\"5\" face=\"Gill Sans\"> is ready to move !</font></html>");
         }
         if(status.equals("DOGMOVE")){
-            gameStatusImage.setIcon(DOGMOVE);
-            gameStatusText.setText("<html><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\">The </font><font color=\"#EFCAC2\" size=\"7\" face=\"Gill Sans\">dogs</font><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\"> are ready to move !</font></html>");
+            if (regretButton.isEnabled() == false && Config.regretStack.size() >= 2) {
+                regretButton.setEnabled(true);
+            }
+            gameStatusImage.setIcon(dogMoveIcon);
+            gameStatusText.setText("<html><font color=\"94A7DC\" size=\"5\" face=\"Gill Sans\">The </font><font color=\"#EFCAC2\" size=\"6\" face=\"Gill Sans\">dogs</font><font color=\"94A7DC\" size=\"5\" face=\"Gill Sans\"> are ready to move !</font></html>");
         }
         if (status.equals("GAMEOVER")) {
-            gameStatusImage.setIcon(GAMEOVER);
-            gameStatusText.setText("<html><font color=\"#EFCAC2\" size=\"7\" face=\"Gill Sans\">Time out. Game over.</font></html>");
+            gameStatusImage.setIcon(gameOverIcon);
+            regretButton.setEnabled(false);
+            gameStatusText.setText("<html><font color=\"#EFCAC2\" size=\"6\" face=\"Gill Sans\">Time out. Game over.</font></html>");
         }
         if (status.equals("TIGERWIN")) {
             System.out.println("TIGER WIN");
+            regretButton.setEnabled(false);
+            JOptionPane.showConfirmDialog(null, "Ah! Tiger Win !", "Game Over", 2, JOptionPane.INFORMATION_MESSAGE, PeaceIcon);
         }
         if (status.equals("DOGWIN")){
             System.out.println("DOG WIN");
+            regretButton.setEnabled(false);
+            JOptionPane.showConfirmDialog(null, "Ah! Dog Win !", "Game Over", 2, JOptionPane.INFORMATION_MESSAGE, PeaceIcon);
         }
     }
     private static boolean isNumeric(String str){  
@@ -133,7 +152,8 @@ public class ChessWindow extends JFrame {
         return pattern.matcher(str).matches();     
     }  
     public static void setPlayer(){
-        System.out.println(PlayerNow);
+        if (regretButton.isEnabled() == false && Config.regretStack.size() >= 2) regretButton.setEnabled(true);
+        if (Config.regretStack.size() < 2) regretButton.setEnabled(false);
         if(PlayerNow.equals("Tiger")){
             PlayerNow = "Dog";
             setGameStatus("DOGMOVE");
@@ -205,10 +225,9 @@ public class ChessWindow extends JFrame {
         gameStatusText = new javax.swing.JLabel();
         regretButton = new javax.swing.JButton();
         timeLeftBar = new javax.swing.JProgressBar();
-        timeNowText = new javax.swing.JLabel();
-        totalTimeText = new javax.swing.JLabel();
-        voiceControlButton = new javax.swing.JToggleButton();
         gameControllButton = new javax.swing.JButton();
+        voiceControlButton = new javax.swing.JToggleButton();
+        timeNowText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -226,17 +245,20 @@ public class ChessWindow extends JFrame {
             .addGap(0, 700, Short.MAX_VALUE)
         );
 
-        gameStatus.setBackground(new java.awt.Color(170, 248, 234));
+        gameStatus.setBackground(new java.awt.Color(235, 246, 247));
 
         gameStatusImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TIGERMOVE.png"))); // NOI18N
 
         gameStatusText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gameStatusText.setText("<html><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\">The </font><font color=\"#EFCAC2\" size=\"7\" face=\"Gill Sans\">tiger</font><font color=\"94A7DC\" size=\"6\" face=\"Gill Sans\"> is ready to move !</font></html>");
+        gameStatusText.setText("<html><font color=\"769164\" size=\"5\" face=\"Gill Sans\">The </font><font color=\"#C97586\" size=\"6\" face=\"Gill Sans\">tiger</font><font color=\"94A7DC\" size=\"5\" face=\"Gill Sans\"> is ready to move !</font></html>");
         gameStatusText.setToolTipText("");
         gameStatusText.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         gameStatusText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        regretButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/regret.png"))); // NOI18N
         regretButton.setText("I regret it so much");
+        regretButton.setBorder(null);
+        regretButton.setEnabled(false);
         regretButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 regretButtonMouseClicked(evt);
@@ -248,44 +270,25 @@ public class ChessWindow extends JFrame {
             }
         });
 
-        javax.swing.GroupLayout gameStatusLayout = new javax.swing.GroupLayout(gameStatus);
-        gameStatus.setLayout(gameStatusLayout);
-        gameStatusLayout.setHorizontalGroup(
-            gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gameStatusLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(gameStatusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gameStatusLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(gameStatusText, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(gameStatusLayout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addComponent(regretButton)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        gameStatusLayout.setVerticalGroup(
-            gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gameStatusLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(gameStatusImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(gameStatusLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(gameStatusText, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(regretButton)
-                .addGap(64, 64, 64))
-        );
-
-        timeLeftBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        timeLeftBar.setBorderPainted(false);
+        timeLeftBar.setAutoscrolls(true);
+        timeLeftBar.setBorder(null);
         timeLeftBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        timeLeftBar.setPreferredSize(new java.awt.Dimension(148, 33));
+        timeLeftBar.setStringPainted(true);
 
-        timeNowText.setText("Time Now : 0 m 0 s");
-
-        totalTimeText.setText("Total Time : INFINITY");
+        gameControllButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/start.png"))); // NOI18N
+        gameControllButton.setAlignmentY(0.0F);
+        gameControllButton.setBorder(null);
+        gameControllButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gameControllButtonMouseClicked(evt);
+            }
+        });
+        gameControllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gameControllButtonActionPerformed(evt);
+            }
+        });
 
         voiceControlButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/volume.png"))); // NOI18N
         voiceControlButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -302,17 +305,59 @@ public class ChessWindow extends JFrame {
             }
         });
 
-        gameControllButton.setText("Start");
-        gameControllButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gameControllButtonMouseClicked(evt);
-            }
-        });
-        gameControllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameControllButtonActionPerformed(evt);
-            }
-        });
+        timeNowText.setText("Time Now : 0 m 0 s/ INFINITY");
+
+        javax.swing.GroupLayout gameStatusLayout = new javax.swing.GroupLayout(gameStatus);
+        gameStatus.setLayout(gameStatusLayout);
+        gameStatusLayout.setHorizontalGroup(
+            gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gameStatusLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
+                                .addComponent(gameStatusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
+                                .addComponent(gameControllButton)
+                                .addGap(43, 43, 43))))
+                    .addGroup(gameStatusLayout.createSequentialGroup()
+                        .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(gameStatusText)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
+                                .addComponent(voiceControlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(regretButton, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(timeLeftBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(timeNowText, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
+        gameStatusLayout.setVerticalGroup(
+            gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gameStatusLayout.createSequentialGroup()
+                .addContainerGap(51, Short.MAX_VALUE)
+                .addComponent(gameStatusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(gameStatusText, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(timeLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(timeNowText)
+                .addGap(75, 75, 75)
+                .addComponent(gameControllButton)
+                .addGap(47, 47, 47)
+                .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(voiceControlButton, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                    .addComponent(regretButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        voiceControlButton.getAccessibleContext().setAccessibleName("soundControlButton");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -321,50 +366,19 @@ public class ChessWindow extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gameStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(timeNowText)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(totalTimeText))
-                                    .addComponent(timeLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(121, 121, 121)
-                                .addComponent(voiceControlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(gameControllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gameStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(gameStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(timeLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(timeNowText)
-                                    .addComponent(totalTimeText)))
-                            .addComponent(voiceControlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(gameControllButton))
-                    .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 14, Short.MAX_VALUE))
+                    .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gameStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
-
-        voiceControlButton.getAccessibleContext().setAccessibleName("soundControlButton");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -405,7 +419,8 @@ public class ChessWindow extends JFrame {
             startNewGame(time);
         }
         else{
-            gameControllButton.setText("Restart");
+            gameControllButton.setIcon(restartBtnIcon);
+            gameControllButton.setBorder(null);
             chessCanvas.addMouseListener(MouseListener);
             startNewGame(time);
         }
@@ -418,33 +433,43 @@ public class ChessWindow extends JFrame {
 
     private void regretButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regretButtonMouseClicked
         // TODO add your handling code here:
+        if (regretButton.isEnabled() == false) return;
+        regretButton.setEnabled(false);
         backOneStep();
         backOneStep();
         chessCanvas.repaint();
     }//GEN-LAST:event_regretButtonMouseClicked
 
-    public void backOneStep(){
+    private void backOneStep(){
         regretData del = new regretData();
         del = Config.regretStack.pop();
         System.out.println(del.src_x+" "+del.src_y+" "+del.des_x+" "+del.des_y);
         chessBoarder.delPiece(del.des_x, del.des_y);
         chessBoarder.addPiece(del.src_x, del.src_y,del.pieceId);
+        if (del.pieceId == 0) {
+            chessBoarder.TigerLocationX = del.src_x;
+            chessBoarder.TigerLocationY = del.src_y;
+        }
         chessBoarder.setPoint(null);
         if(del.degree_0 == true){
             chessBoarder.addPiece(del.des_x-1, del.des_y,1);
             chessBoarder.addPiece(del.des_x+1, del.des_y,1);
+            chessBoarder.dogCount += 2; 
         }
         if(del.degree_90 == true){
             chessBoarder.addPiece(del.des_x, del.des_y-1,1);
             chessBoarder.addPiece(del.des_x, del.des_y+1,1);
+            chessBoarder.dogCount += 2; 
         }
         if(del.degree_135 == true){
             chessBoarder.addPiece(del.des_x-1, del.des_y-1,1);
             chessBoarder.addPiece(del.des_x+1, del.des_y+1,1);
+            chessBoarder.dogCount += 2; 
         }
         if(del.degree_45 == true){
             chessBoarder.addPiece(del.des_x-1, del.des_y+1,1);
             chessBoarder.addPiece(del.des_x+1, del.des_y-1,1);
+            chessBoarder.dogCount += 2; 
         }
     }
 
@@ -454,10 +479,9 @@ public class ChessWindow extends JFrame {
     private static javax.swing.JPanel gameStatus;
     private static javax.swing.JLabel gameStatusImage;
     private static javax.swing.JLabel gameStatusText;
-    private javax.swing.JButton regretButton;
+    private static javax.swing.JButton regretButton;
     private static javax.swing.JProgressBar timeLeftBar;
     private javax.swing.JLabel timeNowText;
-    private javax.swing.JLabel totalTimeText;
     private javax.swing.JToggleButton voiceControlButton;
     // End of variables declaration//GEN-END:variables
 }

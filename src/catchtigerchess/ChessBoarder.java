@@ -20,9 +20,9 @@ import java.awt.image.ImageObserver;
 public class ChessBoarder {
     private static ChessPieces[][] chessPieces;
     private static boolean[][][][] map;
-    private static int dogCount = 16;
-    private static int TigerLocationX;//wyw record the location of tiger
-    private static int TigerLocationY;
+    public static int dogCount = 16;
+    public static int TigerLocationX;//wyw record the location of tiger
+    public static int TigerLocationY;
     private Point selectPoint;
     private boolean isRealDes(int x,int y){
         if(x>=0&&x<=4&&y>=2&&y<=6) return true;

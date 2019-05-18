@@ -17,10 +17,10 @@ public class Config {
     // TODO : define and initialize haveWay[][][][] map;
     
     static public Stack<regretData> regretStack = new Stack<regretData>();
-    
+
     
    static public boolean[][][][] map = new boolean [7][5][7][5];
-
+   
    
    static public void init_map(){
        for(int i=0; i<7; i++){

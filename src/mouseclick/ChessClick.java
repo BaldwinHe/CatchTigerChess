@@ -57,6 +57,7 @@ public class ChessClick extends MouseAdapter{
                 Point p1 = ChessWindow.chessBoarder.getPoint();
                 regretData regretTemp = new regretData();
                 if (ChessWindow.chessBoarder.pieceMove(p1, new Point(x, y), regretTemp) == true) { 
+                    regretTemp.pieceId = pieces[y][x].id;
                     regretTemp.src_x = p1.x;
                     regretTemp.src_y = p1.y;
                     regretTemp.des_x = x;
@@ -64,9 +65,16 @@ public class ChessClick extends MouseAdapter{
                     ChessWindow.chessBoarder.setPoint(null);
                     ChessWindow.eatChess(x, y, regretTemp);
                     Config.regretStack.push(regretTemp);
-                    System.out.println(Config.regretStack.peek().src_x+" "+Config.regretStack.peek().src_y+" "+Config.regretStack.peek().des_x+" "+Config.regretStack.peek().des_y);
+                    System.err.println(Config.regretStack.size());
+                    //System.out.println(Config.regretStack.peek().src_x+" "+Config.regretStack.peek().src_y+" "+Config.regretStack.peek().des_x+" "+Config.regretStack.peek().des_y);
                     // TODO : check win ? 
                     refresh(arg);
+                    int status = ChessWindow.chessBoarder.JudgeWin();
+                    if (status == 2){
+                        ChessWindow.setGameStatus("DOGWIN");
+                    }else if (status == 1){  
+                        ChessWindow.setGameStatus("TIGERWIN");
+                    }
                     swapPlayer();
                 }
             }

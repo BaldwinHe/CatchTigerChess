@@ -3,14 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/杨焕煜/Documents/github的啦/JavaBigHomework/src/catchtigerchess/ChessBoarder.java</file>
-            <file>file:/C:/Users/杨焕煜/Documents/github的啦/JavaBigHomework/src/catchtigerchess/PlayGame.java</file>
-            <file>file:/C:/Users/杨焕煜/Documents/github的啦/JavaBigHomework/src/catchtigerchess/ChessBoardCanvas.java</file>
-            <file>file:/C:/Users/杨焕煜/Documents/github的啦/JavaBigHomework/src/mouseclick/ChessClick.java</file>
-            <file>file:/C:/Users/杨焕煜/Documents/github的啦/JavaBigHomework/src/catchtigerchess/ChessWindow.java</file>
-            <file>file:/C:/Users/杨焕煜/Documents/github的啦/JavaBigHomework/src/catchtigerchess/ChessPieces.java</file>
-            <file>file:/C:/Users/杨焕煜/Documents/github的啦/JavaBigHomework/src/config/Config.java</file>
-            <file>file:/C:/Users/杨焕煜/Documents/github的啦/JavaBigHomework/src/catchtigerchess/regretData.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/mouseclick/ChessClick.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/catchtigerchess/PlayGame.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/catchtigerchess/ChessBoarder.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/catchtigerchess/ChessBoardCanvas.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/catchtigerchess/ChessPieces.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/catchtigerchess/regretData.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/catchtigerchess/ChessWindow.java</file>
         </group>
     </open-files>
 </project-private>
