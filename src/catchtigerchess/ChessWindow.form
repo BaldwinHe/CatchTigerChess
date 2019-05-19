@@ -192,9 +192,6 @@
         <Component class="javax.swing.JProgressBar" name="timeLeftBar">
           <Properties>
             <Property name="autoscrolls" type="boolean" value="true"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
-            </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="&#x9ed8;&#x8ba4;&#x5149;&#x6807;"/>
             </Property>
@@ -256,6 +253,7 @@
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="soundControlButton"/>
           </AccessibilityProperties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="voiceControlButtonMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="voiceControlButtonActionPerformed"/>
           </Events>
         </Component>

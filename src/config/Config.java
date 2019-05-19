@@ -34,8 +34,8 @@ public class Config {
        map[0][2][1][1] = true;map[0][2][1][2] = true;
        map[0][2][1][3] = true;map[1][1][0][1] = true;
        map[1][1][1][2] = true;map[1][1][2][2] = true;
-       map[1][2][0][2] = true;map[1][2][1][1] = true;
-       map[1][2][3][2] = true;map[1][2][2][3] = true;
+       map[1][2][0][2] = true;map[1][2][1][1] = true;map[1][2][2][2] = true;
+       map[1][2][3][2] = true;map[1][2][2][3] = true;map[1][2][1][3] = true;
        map[1][3][0][2] = true;map[1][3][2][2] = true;
        map[1][3][1][2] = true;map[2][0][2][1] = true;
        map[2][0][3][0] = true;map[2][0][3][1] = true;map[2][1][2][0] = true;
@@ -43,7 +43,7 @@ public class Config {
        map[2][1][3][1] = true;map[2][2][2][1] = true;
        map[2][2][2][3] = true;map[2][2][1][2] = true;
        map[2][2][3][2] = true;map[2][2][1][1] = true;
-       map[2][2][1][3] = true;map[2][2][2][1] = true;
+       map[2][2][1][3] = true;map[2][2][2][1] = true;map[2][2][3][1] = true;
        map[2][2][2][3] = true;map[2][3][2][2] = true;
        map[2][3][2][4] = true;map[2][3][3][3] = true;
        map[2][4][2][3] = true;map[2][4][3][4] = true;

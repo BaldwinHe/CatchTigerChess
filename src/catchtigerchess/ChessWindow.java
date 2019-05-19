@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import java.util.regex.Pattern;
 import catchtigerchess.regretData;
 import java.awt.Point;
+import catchtigerchess.palyMusic;
 /**
  *
  * @author heyanbai
@@ -51,6 +52,8 @@ public class ChessWindow extends JFrame {
     private Boolean gameIsStart;
     private ActionListener updateProBar;
     ChessBoardCanvas chessCanvas;
+    public static palyMusic music;
+    private static String voice;
     
     /**
      * Creates new form ChessWindow
@@ -67,6 +70,9 @@ public class ChessWindow extends JFrame {
         PlayerNow = new String("Tiger");
         chessBoarder = new ChessBoarder();
         MouseListener = new ChessClick();
+        voice = new String("on");
+        music = new palyMusic();
+        music.init();
         
         this.setTitle("CatchTigerChess");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,6 +84,8 @@ public class ChessWindow extends JFrame {
         chessCanvas.addMouseListener(MouseListener);
         gameBoard.add(chessCanvas);
         chessCanvas.removeMouseListener(MouseListener);
+        music.playStartMusic();
+        
     }
     private void startNewGame(Integer totalTime){
         Config.regretStack.clear();
@@ -170,7 +178,14 @@ public class ChessWindow extends JFrame {
         return chessBoarder.getChessPieces();
     }
     
+    public static boolean isVoiceON(){
+        if(voice.equals("on")){
+            return true;
+        } else return false;
+    }
+    
     public static void eatChess(int x, int y, regretData regretTemp){
+        int judge = 0;
         if(PlayerNow.equals("Tiger")){
             if(x-1>=0 && x-1<=4 && x+1>=0 &&x+1<=4){
                 if( (chessBoarder.hasRoad(x,y,x-1,y) && chessBoarder.hasPiece(x-1, y)) && (chessBoarder.hasPiece(x+1, y)&& chessBoarder.hasRoad(x,y,x+1,y))){
@@ -178,6 +193,7 @@ public class ChessWindow extends JFrame {
                 chessBoarder.delPiece(x+1, y);
                 chessBoarder.killDog(2);
                 regretTemp.degree_0 = true;
+                judge = 1;
                 }
                 else regretTemp.degree_0 = false;
             }
@@ -187,6 +203,7 @@ public class ChessWindow extends JFrame {
                 chessBoarder.delPiece(x, y+1);
                 chessBoarder.killDog(2);
                regretTemp.degree_90 = true;
+                judge = 1;
                 } 
                 else regretTemp.degree_90 = false;
             }
@@ -196,6 +213,7 @@ public class ChessWindow extends JFrame {
                 chessBoarder.delPiece(x+1, y+1);
                 chessBoarder.killDog(2);
                 regretTemp.degree_135 = true;
+                judge = 1;
                 }
                 else regretTemp.degree_135 = false;
                 
@@ -204,11 +222,14 @@ public class ChessWindow extends JFrame {
                 chessBoarder.delPiece(x+1, y-1);
                 chessBoarder.killDog(2);
                 regretTemp.degree_45 = true;
+                judge = 1;
                 }
                else regretTemp.degree_45 = false;
             }
             
         }
+        if(judge == 1 && voice.equals("on"))
+            music.playEatMusic();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -271,7 +292,6 @@ public class ChessWindow extends JFrame {
         });
 
         timeLeftBar.setAutoscrolls(true);
-        timeLeftBar.setBorder(null);
         timeLeftBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         timeLeftBar.setPreferredSize(new java.awt.Dimension(148, 33));
         timeLeftBar.setStringPainted(true);
@@ -299,6 +319,11 @@ public class ChessWindow extends JFrame {
         voiceControlButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/mute.png"))); // NOI18N
         voiceControlButton.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/volume.png"))); // NOI18N
         voiceControlButton.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/mute.png"))); // NOI18N
+        voiceControlButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                voiceControlButtonMouseClicked(evt);
+            }
+        });
         voiceControlButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 voiceControlButtonActionPerformed(evt);
@@ -424,6 +449,11 @@ public class ChessWindow extends JFrame {
             chessCanvas.addMouseListener(MouseListener);
             startNewGame(time);
         }
+        if(voice.equals("on")){
+            music.stopStartMusiic();
+            music.playBgMusic();
+        }
+        
     }//GEN-LAST:event_gameControllButtonMouseClicked
 
     
@@ -438,7 +468,30 @@ public class ChessWindow extends JFrame {
         backOneStep();
         backOneStep();
         chessCanvas.repaint();
+        music.playRegratMusic();
     }//GEN-LAST:event_regretButtonMouseClicked
+
+    private void voiceControlButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voiceControlButtonMouseClicked
+        // TODO add your handling code here:
+        if(gameIsStart){
+            if(voice.equals("on")){
+            voice = "off";
+            music.stopBgMusiic();
+            }else{
+                voice = "on";
+                music.playBgMusic();
+            }
+        }else{
+        if(voice.equals("on")){
+            voice = "off";
+            music.stopStartMusiic();
+            }else{
+                voice = "on";
+                music.playStartMusic();
+            }
+        }
+        
+    }//GEN-LAST:event_voiceControlButtonMouseClicked
 
     private void backOneStep(){
         regretData del = new regretData();

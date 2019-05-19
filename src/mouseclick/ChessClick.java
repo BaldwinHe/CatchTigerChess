@@ -57,6 +57,8 @@ public class ChessClick extends MouseAdapter{
                 Point p1 = ChessWindow.chessBoarder.getPoint();
                 regretData regretTemp = new regretData();
                 if (ChessWindow.chessBoarder.pieceMove(p1, new Point(x, y), regretTemp) == true) { 
+                    if(ChessWindow.isVoiceON() == true)
+                        ChessWindow.music.playMoveMusic();
                     regretTemp.pieceId = pieces[y][x].id;
                     regretTemp.src_x = p1.x;
                     regretTemp.src_y = p1.y;
