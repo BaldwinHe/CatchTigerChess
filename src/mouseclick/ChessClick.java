@@ -57,15 +57,23 @@ public class ChessClick extends MouseAdapter{
                 Point p1 = ChessWindow.chessBoarder.getPoint();
                 regretData regretTemp = new regretData();
                 if (ChessWindow.chessBoarder.pieceMove(p1, new Point(x, y), regretTemp) == true) { 
-                    if(ChessWindow.isVoiceON() == true)
-                        ChessWindow.music.playMoveMusic();
+                    if(ChessWindow.isVoiceON() == true){
+                        if(pieces[y][x].id == 0)
+                            ChessWindow.music.playMoveTigerMusic();
+                        else
+                            ChessWindow.music.playMoveDogMusic();
+                    }
                     regretTemp.pieceId = pieces[y][x].id;
                     regretTemp.src_x = p1.x;
                     regretTemp.src_y = p1.y;
                     regretTemp.des_x = x;
                     regretTemp.des_y = y;
                     ChessWindow.chessBoarder.setPoint(null);
-                    ChessWindow.eatChess(x, y, regretTemp);
+                    if(ChessWindow.eatChess(x, y, regretTemp) == true){
+                        if(ChessWindow.isVoiceON() == true)
+                            ChessWindow.music.playEatMusic();
+                        System.out.println("haveEat");
+                    }
                     Config.regretStack.push(regretTemp);
                     System.err.println(Config.regretStack.size());
                     //System.out.println(Config.regretStack.peek().src_x+" "+Config.regretStack.peek().src_y+" "+Config.regretStack.peek().des_x+" "+Config.regretStack.peek().des_y);

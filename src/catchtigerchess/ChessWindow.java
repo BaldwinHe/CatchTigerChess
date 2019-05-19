@@ -184,7 +184,7 @@ public class ChessWindow extends JFrame {
         } else return false;
     }
     
-    public static void eatChess(int x, int y, regretData regretTemp){
+    public static boolean eatChess(int x, int y, regretData regretTemp){
         int judge = 0;
         if(PlayerNow.equals("Tiger")){
             if(x-1>=0 && x-1<=4 && x+1>=0 &&x+1<=4){
@@ -228,8 +228,9 @@ public class ChessWindow extends JFrame {
             }
             
         }
-        if(judge == 1 && voice.equals("on"))
-            music.playEatMusic();
+        if(judge == 1)
+            return true;
+        else return false;
     }
     /**
      * This method is called from within the constructor to initialize the form.
