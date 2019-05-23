@@ -57,45 +57,43 @@ public class ChessClick extends MouseAdapter{
                 Point p1 = ChessWindow.chessBoarder.getPoint();
                 regretData regretTemp = new regretData();
                 if (ChessWindow.chessBoarder.pieceMove(p1, new Point(x, y), regretTemp) == true) { 
-                    if(ChessWindow.isVoiceON() == true){
-                        if(pieces[y][x].id == 0)
-                            ChessWindow.music.playMoveTigerMusic();
-                        else
-                            ChessWindow.music.playMoveDogMusic();
-                    }
                     regretTemp.pieceId = pieces[y][x].id;
                     regretTemp.src_x = p1.x;
                     regretTemp.src_y = p1.y;
                     regretTemp.des_x = x;
                     regretTemp.des_y = y;
                     ChessWindow.chessBoarder.setPoint(null);
+                    boolean flagEat = true;
                     if(ChessWindow.eatChess(x, y, regretTemp) == true){
+                        flagEat = false;
                         if(ChessWindow.isVoiceON() == true)
                             ChessWindow.music.playEatMusic();
                         System.out.println("haveEat");
                     }
+                    if(ChessWindow.isVoiceON() == true && flagEat){
+                        if(pieces[y][x].id == 0)
+                            ChessWindow.music.playMoveTigerMusic();
+                        else
+                            ChessWindow.music.playMoveDogMusic();
+                    }
                     Config.regretStack.push(regretTemp);
-                    System.err.println(Config.regretStack.size());
-                    //System.out.println(Config.regretStack.peek().src_x+" "+Config.regretStack.peek().src_y+" "+Config.regretStack.peek().des_x+" "+Config.regretStack.peek().des_y);
-                    // TODO : check win ? 
                     refresh(arg);
+                    swapPlayer();
                     int status = ChessWindow.chessBoarder.JudgeWin();
                     if (status == 2){
                         ChessWindow.setGameStatus("DOGWIN");
                     }else if (status == 1){  
                         ChessWindow.setGameStatus("TIGERWIN");
                     }
-                    swapPlayer();
                 }
             }
         }
     }
+    
     /**
     * Refresh ChessBoard
     * @param arg MouseEvent Argument
     */
-    
-    
     private void refresh(MouseEvent arg){
         ((ChessBoardCanvas) arg.getSource()).repaint();
         int height = ((ChessBoardCanvas) arg.getSource()).getHeight();
