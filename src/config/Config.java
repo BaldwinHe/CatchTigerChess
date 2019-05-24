@@ -4,20 +4,26 @@
  * and open the template in the editor.
  */
 package config;
-
-
+import utils.RegretData;
+import java.util.Stack;
 /**
- *
- * @author heyanbai
+ *  Application configuration
+ * @author 何炎柏 | 杨焕煜
  */
 public class Config {
     static public int startX = 18;
     static public int startY = 18;
     static public int distPoint2Point = 100;
-    // TODO : define and initialize haveWay[][][][] map;
-   static public boolean[][][][] map = new boolean [7][5][7][5];
+    
+    static public Stack<RegretData> regretStack = new Stack<RegretData>();
+
+    
+    static public boolean[][][][] map = new boolean [7][5][7][5];
    
-   static public void init_map(){
+    /**
+     * Initialize the game map
+     */
+    static public void init_map(){
        for(int i=0; i<7; i++){
            for(int j=0; j<5; j++){
                for(int k=0; k<7; k++){
@@ -29,16 +35,16 @@ public class Config {
        map[0][2][1][1] = true;map[0][2][1][2] = true;
        map[0][2][1][3] = true;map[1][1][0][1] = true;
        map[1][1][1][2] = true;map[1][1][2][2] = true;
-       map[1][2][0][2] = true;map[1][2][1][1] = true;
-       map[1][2][3][2] = true;map[1][2][2][3] = true;
+       map[1][2][0][2] = true;map[1][2][1][1] = true;map[1][2][2][2] = true;
+       map[1][2][3][2] = true;map[1][2][2][3] = true;map[1][2][1][3] = true;
        map[1][3][0][2] = true;map[1][3][2][2] = true;
        map[1][3][1][2] = true;map[2][0][2][1] = true;
-       map[2][0][3][0] = true;map[2][0][3][1] = true;
+       map[2][0][3][0] = true;map[2][0][3][1] = true;map[2][1][2][0] = true;
        map[2][1][2][1] = true;map[2][1][2][2] = true;
        map[2][1][3][1] = true;map[2][2][2][1] = true;
        map[2][2][2][3] = true;map[2][2][1][2] = true;
        map[2][2][3][2] = true;map[2][2][1][1] = true;
-       map[2][2][1][3] = true;map[2][2][2][1] = true;
+       map[2][2][1][3] = true;map[2][2][2][1] = true;map[2][2][3][1] = true;
        map[2][2][2][3] = true;map[2][3][2][2] = true;
        map[2][3][2][4] = true;map[2][3][3][3] = true;
        map[2][4][2][3] = true;map[2][4][3][4] = true;
