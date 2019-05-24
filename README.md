@@ -7,35 +7,35 @@
 * 最好不修改已写好的代码。
 * 写完了相应的代码(在本地测试无误),在**experiment**分支上传代码(有注释最好啦~)。
 * 文件结构
-* 
+
   ```
-  .
-├── LICENSE
-├── README.md
-├── build/
-├── build.xml
-├── manifest.mf
-├── nbproject/
-├── src
-│   ├── catchtigerchess
-│   │   └── CatchTigerChess.java //Game Entrance
-│   ├── config
-│   │   └── Config.java
-│   ├── gameWindow
-│   │   ├── ChessBoardCanvas.form
-│   │   ├── ChessBoardCanvas.java
-│   │   ├── ChessBoarder.java
-│   │   ├── ChessWindow.form
-│   │   └── ChessWindow.java
-│   ├── imageLibary/
-│   ├── musicLibary/
-│   ├── utils
-│   │   ├── ChessClick.java
-│   │   ├── ChessPieces.java
-│   │   ├── PlayMusic.java
-│   │   ├── RegretData.java
-│   │   └── RegretStack.java
-└── test
+    .
+  ├── LICENSE
+  ├── README.md
+  ├── build/
+  ├── build.xml
+  ├── manifest.mf
+  ├── nbproject/
+  ├── src
+  │   ├── catchtigerchess
+  │   │   └── CatchTigerChess.java //Game Entrance
+  │   ├── config
+  │   │   └── Config.java
+  │   ├── gameWindow
+  │   │   ├── ChessBoardCanvas.form
+  │   │   ├── ChessBoardCanvas.java
+  │   │   ├── ChessBoarder.java
+  │   │   ├── ChessWindow.form
+  │   │   └── ChessWindow.java
+  │   ├── imageLibary/
+  │   ├── musicLibary/
+  │   ├── utils
+  │   │   ├── ChessClick.java
+  │   │   ├── ChessPieces.java
+  │   │   ├── PlayMusic.java
+  │   │   ├── RegretData.java
+  │   │   └── RegretStack.java
+  └── test
   ```
 
   
