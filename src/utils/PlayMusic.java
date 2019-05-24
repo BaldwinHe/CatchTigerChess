@@ -122,4 +122,22 @@ public class PlayMusic {
         stopBgMusiic();
         won_dog.loop();
     }
+    /**
+    * Stop timeout music
+    */
+    public void stopTimeOutMusic(){
+        time_out.stop();
+    }
+    /**
+    * Stop tiger won music
+    */
+    public void stopWonTigerMusic(){
+        won_tiger.stop();
+    }
+    /**
+    * Stop dog won music
+    */
+    public void stopWonDogMusic(){
+        won_dog.stop();
+    }
 }

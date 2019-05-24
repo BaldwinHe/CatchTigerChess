@@ -14,15 +14,12 @@ import java.awt.EventQueue;
  */
 public class CatchTigerChess {
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ChessWindow Chess = new ChessWindow(-1);
-                    Chess.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                ChessWindow Chess = new ChessWindow(-1);
+                Chess.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

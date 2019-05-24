@@ -37,6 +37,7 @@ public class ChessWindow extends JFrame {
     private static int gameTime;
     private static Timer timer;
     private Boolean gameIsStart;
+    private static int musicType;
     private static ChessBoardCanvas chessCanvas;
     public static PlayMusic music;
     private static Boolean isVoiceOn;
@@ -58,6 +59,7 @@ public class ChessWindow extends JFrame {
         chessBoarder = new ChessBoarder();
         MouseListener = new ChessClick();
         isVoiceOn = Boolean.TRUE;
+        musicType = -1;
         music = new PlayMusic();
         music.init();
         
@@ -71,10 +73,11 @@ public class ChessWindow extends JFrame {
         chessCanvas.addMouseListener(MouseListener);
         gameBoard.add(chessCanvas);
         chessCanvas.removeMouseListener(MouseListener);
-        music.playStartMusic();
+        if(isVoiceOn) music.playStartMusic();
     }
     private void startNewGame(Integer totalTime){
         gameStatusImage.setIcon(tigerMoveIcon);
+        musicType = 0;
         gameStatusText.setText("<html><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\">The </font><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">tiger</font><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\"> is ready to move !</font></html>");
         Config.regretStack.clear();
         regretButton.setEnabled(false);
@@ -100,7 +103,7 @@ public class ChessWindow extends JFrame {
             if (timeLeftBar.getValue() == gameTime) {
                 timer.stop();
                 setGameStatus("GAMEOVER");
-                music.playTimeOutMusic();
+                if(isVoiceOn) music.playTimeOutMusic();
                 chessCanvas.removeMouseListener(MouseListener);
             }
         });
@@ -129,10 +132,12 @@ public class ChessWindow extends JFrame {
         if (status.equals("GAMEOVER")) {
             gameStatusImage.setIcon(gameOverIcon);
             regretButton.setEnabled(false);
+            musicType = 3;
             gameStatusText.setText("<html><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">Time out. Game over.</font></html>");
         }
         if (status.equals("TIGERWIN")) {
-            music.playWonTigerMusic();
+            if(isVoiceOn) music.playWonTigerMusic();
+            musicType = 1;
             gameStatusImage.setIcon(winIcon);
             gameStatusText.setText("<html><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">Tiger win. Game over.</font></html>");
             regretButton.setEnabled(false);
@@ -140,7 +145,8 @@ public class ChessWindow extends JFrame {
             chessCanvas.removeMouseListener(MouseListener);
         }
         if (status.equals("DOGWIN")){
-            music.playWonDogMusic();
+            if(isVoiceOn) music.playWonDogMusic();
+            musicType = 2;
             gameStatusImage.setIcon(winIcon);
             gameStatusText.setText("<html><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">Dog win. Game over.</font></html>");
             regretButton.setEnabled(false);
@@ -470,24 +476,31 @@ public class ChessWindow extends JFrame {
     }//GEN-LAST:event_regretButtonMouseClicked
 
     private void voiceControlButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voiceControlButtonMouseClicked
-        if(gameIsStart){
-            if(isVoiceOn){
-                isVoiceOn = Boolean.FALSE;
-                music.stopBgMusiic();
-            }else{
-                isVoiceOn = Boolean.TRUE;
-                music.playBgMusic();
-            }
-        }else{
-            if(isVoiceOn){
-                isVoiceOn = Boolean.FALSE;
-                music.stopStartMusiic();
-            }else{
-                isVoiceOn = Boolean.TRUE;
-                music.playStartMusic();
-            }
+        switch (musicType) {
+            case 1:
+                if (isVoiceOn) music.stopWonTigerMusic();
+                else music.playWonTigerMusic();
+                break;
+            case 2:
+                if (isVoiceOn) music.stopWonDogMusic();
+                else music.playWonDogMusic();
+                break;
+            case 3:
+                if (isVoiceOn) music.stopTimeOutMusic();
+                else music.playTimeOutMusic();
+                break;
+            case -1:
+                if (isVoiceOn) music.stopStartMusiic();
+                else music.playStartMusic();
+                break;
+            case 0:
+                if (isVoiceOn) music.stopBgMusiic();
+                else music.playBgMusic();
+                break;
+            default:
+                break;
         }
-        
+        isVoiceOn = !isVoiceOn; 
     }//GEN-LAST:event_voiceControlButtonMouseClicked
 
     private void backOneStep(){
