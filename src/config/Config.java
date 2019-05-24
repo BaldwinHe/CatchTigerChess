@@ -4,25 +4,26 @@
  * and open the template in the editor.
  */
 package config;
-import catchtigerchess.regretData;
+import utils.RegretData;
 import java.util.Stack;
 /**
- *
- * @author heyanbai
+ *  Application configuration
+ * @author 何炎柏 | 杨焕煜
  */
 public class Config {
     static public int startX = 18;
     static public int startY = 18;
     static public int distPoint2Point = 100;
-    // TODO : define and initialize haveWay[][][][] map;
     
-    static public Stack<regretData> regretStack = new Stack<regretData>();
+    static public Stack<RegretData> regretStack = new Stack<RegretData>();
 
     
-   static public boolean[][][][] map = new boolean [7][5][7][5];
+    static public boolean[][][][] map = new boolean [7][5][7][5];
    
-   
-   static public void init_map(){
+    /**
+     * Initialize the game map
+     */
+    static public void init_map(){
        for(int i=0; i<7; i++){
            for(int j=0; j<5; j++){
                for(int k=0; k<7; k++){
