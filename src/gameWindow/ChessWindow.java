@@ -74,6 +74,8 @@ public class ChessWindow extends JFrame {
         music.playStartMusic();
     }
     private void startNewGame(Integer totalTime){
+        gameStatusImage.setIcon(tigerMoveIcon);
+        gameStatusText.setText("<html><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\">The </font><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">tiger</font><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\"> is ready to move !</font></html>");
         Config.regretStack.clear();
         regretButton.setEnabled(false);
         gameIsStart = true;
@@ -276,10 +278,10 @@ public class ChessWindow extends JFrame {
 
         gameStatus.setBackground(new java.awt.Color(235, 246, 247));
 
-        gameStatusImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imageLibary/TIGERMOVE.png"))); // NOI18N
+        gameStatusImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imageLibary/welcome.png"))); // NOI18N
 
         gameStatusText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gameStatusText.setText("<html><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\">The </font><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">tiger</font><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\"> is ready to move !</font></html>");
+        gameStatusText.setText("<html><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">Catch Tiger Chess</font></html>");
         gameStatusText.setToolTipText("");
         gameStatusText.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         gameStatusText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -348,11 +350,11 @@ public class ChessWindow extends JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
-                                .addComponent(gameStatusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
                                 .addComponent(gameControllButton)
-                                .addGap(43, 43, 43))))
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
+                                .addComponent(timeNowText, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21))))
                     .addGroup(gameStatusLayout.createSequentialGroup()
                         .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(gameStatusText)
@@ -360,19 +362,18 @@ public class ChessWindow extends JFrame {
                                 .addComponent(voiceControlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(regretButton, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(timeLeftBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(timeLeftBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(gameStatusLayout.createSequentialGroup()
+                                .addComponent(gameStatusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gameStatusLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(timeNowText, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
         );
         gameStatusLayout.setVerticalGroup(
             gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gameStatusLayout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
-                .addComponent(gameStatusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
+                .addComponent(gameStatusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(gameStatusText, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
                 .addComponent(timeLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -380,10 +381,10 @@ public class ChessWindow extends JFrame {
                 .addComponent(timeNowText)
                 .addGap(75, 75, 75)
                 .addComponent(gameControllButton)
-                .addGap(47, 47, 47)
-                .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(voiceControlButton, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-                    .addComponent(regretButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(70, 70, 70)
+                .addGroup(gameStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(regretButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(voiceControlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -407,7 +408,7 @@ public class ChessWindow extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(gameBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gameStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         pack();
