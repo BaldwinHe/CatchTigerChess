@@ -38,6 +38,7 @@ public class ChessBoarder {
      * @param des_y Y coordinate of destination point
      * @return true|false
      */
+    
     public boolean hasRoad(int src_x, int src_y,int des_x ,int des_y){
         return map[src_y][src_x][des_y][des_x] || map[des_y][des_x][src_y][src_x];
     }

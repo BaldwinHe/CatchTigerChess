@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/gameWindow/ChessBoardCanvas.java</file>
-            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/mouseclick/ChessClick.java</file>
-            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/config/Config.java</file>
-            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/gameWindow/ChessWindow.java</file>
-            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/catchtigerchess/PlayGame.java</file>
-            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/utils/ChessPieces.java</file>
-            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/gameWindow/ChessBoarder.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

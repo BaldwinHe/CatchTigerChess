@@ -461,14 +461,6 @@ public class ChessWindow extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_regretButtonActionPerformed
 
-    private void regretButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regretButtonMouseClicked
-        if (regretButton.isEnabled() == false) return;
-        regretButton.setEnabled(false);
-        backOneStep();
-        backOneStep();
-        chessCanvas.repaint();
-    }//GEN-LAST:event_regretButtonMouseClicked
-
     private void voiceControlButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voiceControlButtonMouseClicked
         if(gameIsStart){
             if(isVoiceOn){
@@ -489,7 +481,15 @@ public class ChessWindow extends JFrame {
         }
         
     }//GEN-LAST:event_voiceControlButtonMouseClicked
-
+    
+    private void regretButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regretButtonMouseClicked
+        if (regretButton.isEnabled() == false) return;
+        regretButton.setEnabled(false);
+        backOneStep();
+        backOneStep();
+        chessCanvas.repaint();
+    }//GEN-LAST:event_regretButtonMouseClicked
+    
     private void backOneStep(){
         RegretData del = Config.regretStack.pop();
         chessBoarder.delPiece(del.des_x, del.des_y);
