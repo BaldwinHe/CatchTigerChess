@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package utils;
+package gameWindow;
+import gameWindow.ChessPieces;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import config.Config;
+import utils.Config;
 import gameWindow.ChessWindow;
-import utils.ChessPieces;
 import gameWindow.ChessBoardCanvas;
 import java.awt.Point;
 import utils.RegretData;

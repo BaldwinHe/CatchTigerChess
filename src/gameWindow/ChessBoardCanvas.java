@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 package gameWindow;
-import utils.ChessPieces;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import config.Config;
+import utils.Config;
 import java.awt.Point;
 
 /**
