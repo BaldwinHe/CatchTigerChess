@@ -77,7 +77,7 @@ public class PlayMusic {
     /**
      * Play grondgroud music
      */
-    public void playBgMusic(){//背景音乐播放
+    public void playBgMusic(){
         won_dog.stop();
         start.stop();
         time_out.stop();
