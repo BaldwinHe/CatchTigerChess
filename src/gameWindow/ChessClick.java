@@ -4,12 +4,9 @@
  * and open the template in the editor.
  */
 package gameWindow;
-import gameWindow.ChessPieces;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import utils.Config;
-import gameWindow.ChessWindow;
-import gameWindow.ChessBoardCanvas;
 import java.awt.Point;
 import utils.RegretData;
 /**
@@ -62,7 +59,7 @@ public class ChessClick extends MouseAdapter{
                     regretTemp.des_y = y;
                     ChessWindow.chessBoarder.setPoint(null);
                     boolean flagEat = true;
-                    if(ChessWindow.eatChess(x, y, regretTemp) == true){
+                    if(ChessWindow.chessBoarder.eatChess(x, y, regretTemp, ChessWindow.getPlayer()) == true){
                         flagEat = false;
                         if(ChessWindow.isMusicOn() == true)
                             ChessWindow.music.playEatMusic();
@@ -73,7 +70,7 @@ public class ChessClick extends MouseAdapter{
                         else
                             ChessWindow.music.playMoveDogMusic();
                     }
-                    Config.regretStack.push(regretTemp);
+                    ChessWindow.addRegretData(regretTemp);
                     refresh(arg);
                     swapPlayer();
                     int status = ChessWindow.chessBoarder.judgeWin();

@@ -10,9 +10,9 @@ import utils.Config;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
+import java.util.Stack;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JOptionPane;
 import java.util.regex.Pattern;
@@ -38,19 +38,19 @@ public class ChessWindow extends JFrame {
     private static ChessBoardCanvas chessCanvas;
     public static PlayMusic music;
     private static Boolean isVoiceOn;
-    
+    private static final Stack<RegretData> regretStack = new Stack<RegretData>();
     /**
      * Creates new form ChessWindow
      * @param totalTime Game time
      */
     public ChessWindow(Integer totalTime) {
         initComponents();
-        tigerMoveIcon = new javax.swing.ImageIcon(getClass().getResource("/imageLibary/TIGERMOVE.png"));
-        dogMoveIcon = new javax.swing.ImageIcon(getClass().getResource("/imageLibary/DOGMOVE.png"));
-        gameOverIcon = new javax.swing.ImageIcon(getClass().getResource("/imageLibary/GAMEOVER.png"));
-        restartBtnIcon = new javax.swing.ImageIcon(getClass().getResource("/imageLibary/restart.png"));
-        PeaceIcon = new javax.swing.ImageIcon(getClass().getResource("/imageLibary/peace.png"));
-        winIcon = new javax.swing.ImageIcon(getClass().getResource("/imageLibary/WIN.png"));
+        tigerMoveIcon = new javax.swing.ImageIcon(getClass().getResource(Config.TigerMoveIcon));
+        dogMoveIcon = new javax.swing.ImageIcon(getClass().getResource(Config.DogMoveIcon));
+        gameOverIcon = new javax.swing.ImageIcon(getClass().getResource(Config.GameOverIcon));
+        restartBtnIcon = new javax.swing.ImageIcon(getClass().getResource(Config.restartBtnIcon));
+        PeaceIcon = new javax.swing.ImageIcon(getClass().getResource(Config.PeaceIcon));
+        winIcon = new javax.swing.ImageIcon(getClass().getResource(Config.WinIcon));
         gameIsStart = false;
         PlayerNow = "Tiger";
         chessBoarder = new ChessBoarder();
@@ -74,7 +74,7 @@ public class ChessWindow extends JFrame {
     private void startNewGame(Integer totalTime){
         gameStatusImage.setIcon(tigerMoveIcon);
         gameStatusText.setText("<html><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\">The </font><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">tiger</font><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\"> is ready to move !</font></html>");
-        Config.regretStack.clear();
+        regretStack.clear();
         regretButton.setEnabled(false);
         gameIsStart = true;
         timeLeftBar.setMinimum(0);
@@ -111,14 +111,14 @@ public class ChessWindow extends JFrame {
      */
     public static void setGameStatus(String status){
         if(status.equals("TIGERMOVE")){
-            if (regretButton.isEnabled() == false && Config.regretStack.size() >= 2) {
+            if (regretButton.isEnabled() == false && regretStack.size() >= 2) {
                 regretButton.setEnabled(true);
             }
             gameStatusImage.setIcon(tigerMoveIcon);
             gameStatusText.setText("<html><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\">The </font><font color=\"#F06D66\" size=\"6\" face=\"Gill Sans\">tiger</font><font color=\"6694F0\" size=\"5\" face=\"Gill Sans\"> is ready to move !</font></html>");
         }
         if(status.equals("DOGMOVE")){
-            if (regretButton.isEnabled() == false && Config.regretStack.size() >= 2) {
+            if (regretButton.isEnabled() == false && regretStack.size() >= 2) {
                 regretButton.setEnabled(true);
             }
             gameStatusImage.setIcon(dogMoveIcon);
@@ -155,8 +155,8 @@ public class ChessWindow extends JFrame {
      * Set player now
      */
     public static void setPlayer(){
-        if (regretButton.isEnabled() == false && Config.regretStack.size() >= 2) regretButton.setEnabled(true);
-        if (Config.regretStack.size() < 2) regretButton.setEnabled(false);
+        if (regretButton.isEnabled() == false && regretStack.size() >= 2) regretButton.setEnabled(true);
+        if (regretStack.size() < 2) regretButton.setEnabled(false);
         if(PlayerNow.equals("Tiger")){
             PlayerNow = "Dog";
             setGameStatus("DOGMOVE");
@@ -186,58 +186,6 @@ public class ChessWindow extends JFrame {
         return isVoiceOn;
     }
     
-    /**
-     * The tiger takes the piece at coordinates (X, Y)
-     * @param x X coordinate of tiger
-     * @param y Y coordinate of tiger
-     * @param regretTemp Set the direction to eat the pieces
-     * @return Returns true if the tiger takes the piece, otherwise returns false
-     */
-    public static boolean eatChess(int x, int y, RegretData regretTemp){
-        int judge = 0;
-        if(PlayerNow.equals("Tiger")){
-            if(x-1>=0 && x-1<=4 && x+1>=0 &&x+1<=4){
-                if( (chessBoarder.hasRoad(x,y,x-1,y) && chessBoarder.hasPiece(x-1, y)) && (chessBoarder.hasPiece(x+1, y)&& chessBoarder.hasRoad(x,y,x+1,y))){
-                    chessBoarder.delPiece(x-1, y);
-                    chessBoarder.delPiece(x+1, y);
-                    chessBoarder.killDog(2);
-                    regretTemp.degree_0 = true;
-                    judge = 1;
-                }
-                else regretTemp.degree_0 = false;
-            }
-            if(y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
-                if((chessBoarder.hasRoad(x,y,x,y-1) && chessBoarder.hasPiece(x, y-1)) && (chessBoarder.hasPiece(x, y+1) && chessBoarder.hasRoad(x,y,x,y+1))){
-                    chessBoarder.delPiece(x, y-1);
-                    chessBoarder.delPiece(x, y+1);
-                    chessBoarder.killDog(2);
-                    regretTemp.degree_90 = true;
-                    judge = 1;
-                } 
-                else regretTemp.degree_90 = false;
-            }
-            if(x-1>=0 && x-1<=4 && x+1>=0 && x+1<=4 && y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
-                if((chessBoarder.hasRoad(x,y,x-1,y-1) && chessBoarder.hasPiece(x-1, y-1)) && (chessBoarder.hasPiece(x+1, y+1) && chessBoarder.hasRoad(x,y,x+1,y+1))){
-                    chessBoarder.delPiece(x-1, y-1);
-                    chessBoarder.delPiece(x+1, y+1);
-                    chessBoarder.killDog(2);
-                    regretTemp.degree_135 = true;
-                    judge = 1;
-                }
-                else regretTemp.degree_135 = false;
-                
-               if((chessBoarder.hasRoad(x,y,x-1,y+1) && chessBoarder.hasPiece(x-1, y+1)) && (chessBoarder.hasPiece(x+1, y-1) && chessBoarder.hasRoad(x,y,x+1,y-1))){
-                    chessBoarder.delPiece(x-1, y+1);
-                    chessBoarder.delPiece(x+1, y-1);
-                    chessBoarder.killDog(2);
-                    regretTemp.degree_45 = true;
-                    judge = 1;
-                }
-               else regretTemp.degree_45 = false;
-            }
-        }
-        return judge == 1;
-    }
     /**
      * This method is called from within the constructor to initialize the form.qqq
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -483,42 +431,14 @@ public class ChessWindow extends JFrame {
     private void regretButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regretButtonMouseClicked
         if (regretButton.isEnabled() == false) return;
         regretButton.setEnabled(false);
-        backOneStep();
-        backOneStep();
+        chessBoarder.regretOneStep(regretStack.pop());
+        chessBoarder.regretOneStep(regretStack.pop());
         chessCanvas.repaint();
     }//GEN-LAST:event_regretButtonMouseClicked
     
-    private void backOneStep(){
-        RegretData del = Config.regretStack.pop();
-        chessBoarder.delPiece(del.des_x, del.des_y);
-        chessBoarder.addPiece(del.src_x, del.src_y,del.pieceId);
-        if (del.pieceId == 0) {
-            ChessBoarder.TigerLocationX = del.src_x;
-            ChessBoarder.TigerLocationY = del.src_y;
-        }
-        chessBoarder.setPoint(null);
-        if(del.degree_0 == true){
-            chessBoarder.addPiece(del.des_x-1, del.des_y,1);
-            chessBoarder.addPiece(del.des_x+1, del.des_y,1);
-            ChessBoarder.dogCount += 2; 
-        }
-        if(del.degree_90 == true){
-            chessBoarder.addPiece(del.des_x, del.des_y-1,1);
-            chessBoarder.addPiece(del.des_x, del.des_y+1,1);
-            ChessBoarder.dogCount += 2; 
-        }
-        if(del.degree_135 == true){
-            chessBoarder.addPiece(del.des_x-1, del.des_y-1,1);
-            chessBoarder.addPiece(del.des_x+1, del.des_y+1,1);
-            ChessBoarder.dogCount += 2; 
-        }
-        if(del.degree_45 == true){
-            chessBoarder.addPiece(del.des_x-1, del.des_y+1,1);
-            chessBoarder.addPiece(del.des_x+1, del.des_y-1,1);
-            ChessBoarder.dogCount += 2; 
-        }
+    public static void addRegretData(RegretData regretData){
+        regretStack.push(regretData);
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel gameBoard;
     private javax.swing.JButton gameControllButton;

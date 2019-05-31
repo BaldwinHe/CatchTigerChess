@@ -6,6 +6,7 @@
 package gameWindow;
 import utils.Config;
 import java.awt.Point;
+import utils.RegretData;
 
 /**
  * Game interface platform
@@ -64,7 +65,6 @@ public class ChessBoarder {
         selectPoint = new Point();
         selectPoint = null;
         map = new boolean[7][5][7][5];
-        Config.init_map();
         map = Config.map;
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 5; j++) {
@@ -207,5 +207,92 @@ public class ChessBoarder {
      */
     public ChessPieces[][] getChessPieces(){
         return chessPieces.clone();
+    }
+    
+    /**
+     * Return to the latest game status
+     * @param regretData The latest movement information 
+     */
+    public void regretOneStep(RegretData regretData){
+        delPiece(regretData.des_x, regretData.des_y);
+        addPiece(regretData.src_x, regretData.src_y,regretData.pieceId);
+        if (regretData.pieceId == 0) {
+            ChessBoarder.TigerLocationX = regretData.src_x;
+            ChessBoarder.TigerLocationY = regretData.src_y;
+        }
+        setPoint(null);
+        if(regretData.degree_0 == true){
+            addPiece(regretData.des_x-1, regretData.des_y,1);
+            addPiece(regretData.des_x+1, regretData.des_y,1);
+            ChessBoarder.dogCount += 2; 
+        }
+        if(regretData.degree_90 == true){
+            addPiece(regretData.des_x, regretData.des_y-1,1);
+            addPiece(regretData.des_x, regretData.des_y+1,1);
+            ChessBoarder.dogCount += 2; 
+        }
+        if(regretData.degree_135 == true){
+            addPiece(regretData.des_x-1, regretData.des_y-1,1);
+            addPiece(regretData.des_x+1, regretData.des_y+1,1);
+            ChessBoarder.dogCount += 2; 
+        }
+        if(regretData.degree_45 == true){
+            addPiece(regretData.des_x-1, regretData.des_y+1,1);
+            addPiece(regretData.des_x+1, regretData.des_y-1,1);
+            ChessBoarder.dogCount += 2; 
+        }
+    }
+    /**
+     * The tiger takes the piece at coordinates (X, Y)
+     * @param x X coordinate of tiger
+     * @param y Y coordinate of tiger
+     * @param regretTemp Set the direction to eat the pieces
+     * @param PlayerNow Player Now
+     * @return Returns true if the tiger takes the piece, otherwise returns false
+     */
+    public boolean eatChess(int x, int y, RegretData regretTemp,String PlayerNow){
+        boolean judge = false;
+        if(PlayerNow.equals("Tiger")){
+            if(x-1>=0 && x-1<=4 && x+1>=0 &&x+1<=4){
+                if( (hasRoad(x,y,x-1,y) && hasPiece(x-1, y)) && (hasPiece(x+1, y)&& hasRoad(x,y,x+1,y))){
+                    delPiece(x-1, y);
+                    delPiece(x+1, y);
+                    killDog(2);
+                    regretTemp.degree_0 = true;
+                    judge = true;
+                }
+                else regretTemp.degree_0 = false;
+            }
+            if(y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
+                if((hasRoad(x,y,x,y-1) && hasPiece(x, y-1)) && (hasPiece(x, y+1) && hasRoad(x,y,x,y+1))){
+                    delPiece(x, y-1);
+                    delPiece(x, y+1);
+                    killDog(2);
+                    regretTemp.degree_90 = true;
+                    judge = true;
+                } 
+                else regretTemp.degree_90 = false;
+            }
+            if(x-1>=0 && x-1<=4 && x+1>=0 && x+1<=4 && y-1>=0 &&y-1<=6 && y+1>=0&&y+1<=6){
+                if((hasRoad(x,y,x-1,y-1) && hasPiece(x-1, y-1)) && (hasPiece(x+1, y+1) && hasRoad(x,y,x+1,y+1))){
+                    delPiece(x-1, y-1);
+                    delPiece(x+1, y+1);
+                    killDog(2);
+                    regretTemp.degree_135 = true;
+                    judge = true;
+                }
+                else regretTemp.degree_135 = false;
+                
+               if((hasRoad(x,y,x-1,y+1) && hasPiece(x-1, y+1)) && (hasPiece(x+1, y-1) && hasRoad(x,y,x+1,y-1))){
+                    delPiece(x-1, y+1);
+                    delPiece(x+1, y-1);
+                    killDog(2);
+                    regretTemp.degree_45 = true;
+                    judge = true;
+                }
+               else regretTemp.degree_45 = false;
+            }
+        }
+        return judge;
     }
 }
