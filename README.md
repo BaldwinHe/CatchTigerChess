@@ -25,16 +25,16 @@
   │   │   ├── ChessBoardCanvas.form
   │   │   ├── ChessBoardCanvas.java
   │   │   ├── ChessBoarder.java
+  │   │   ├── ChessClick.java
+  │   │   ├── ChessPieces.java
   │   │   ├── ChessWindow.form
   │   │   └── ChessWindow.java
   │   ├── imageLibary/
   │   ├── musicLibary/
   │   ├── utils
-  │   │   ├── ChessClick.java
-  │   │   ├── ChessPieces.java
   │   │   ├── PlayMusic.java
-  │   │   ├── RegretData.java
-  │   │   └── RegretStack.java
+  │   │   ├── Config.java
+  │   │   └── RegretData.java
   └── test
   ```
 
