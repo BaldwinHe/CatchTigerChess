@@ -416,29 +416,29 @@ public class ChessWindow extends JFrame {
     private void voiceControlButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voiceControlButtonMouseClicked
         switch (musicType) {
             case 1:
-                if (isVoiceOn) music.stopWonTigerMusic();
+                if (voiceControlButton.isSelected()) music.stopWonTigerMusic();
                 else music.playWonTigerMusic();
                 break;
             case 2:
-                if (isVoiceOn) music.stopWonDogMusic();
+                if (voiceControlButton.isSelected()) music.stopWonDogMusic();
                 else music.playWonDogMusic();
                 break;
             case 3:
-                if (isVoiceOn) music.stopTimeOutMusic();
+                if (voiceControlButton.isSelected()) music.stopTimeOutMusic();
                 else music.playTimeOutMusic();
                 break;
             case -1:
-                if (isVoiceOn) music.stopStartMusiic();
+                if (voiceControlButton.isSelected()) music.stopStartMusiic();
                 else music.playStartMusic();
                 break;
             case 0:
-                if (isVoiceOn) music.stopBgMusiic();
+                if (voiceControlButton.isSelected()) music.stopBgMusiic();
                 else music.playBgMusic();
                 break;
             default:
                 break;
         }
-        isVoiceOn = !isVoiceOn; 
+        isVoiceOn = !voiceControlButton.isSelected();
     }//GEN-LAST:event_voiceControlButtonMouseClicked
     
     private void regretButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regretButtonMouseClicked
