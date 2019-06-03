@@ -12,10 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JOptionPane;
 import java.util.regex.Pattern;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 /**
  * Main interface
  * @author 何炎柏 | 汪有为
@@ -59,7 +64,15 @@ public class ChessWindow extends JFrame {
         isVoiceOn = Boolean.TRUE;
         musicType = -1;
         music = new PlayMusic();
-        music.init();
+        try {
+            music.init();
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(ChessWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ChessWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(ChessWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         this.setTitle("CatchTigerChess");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

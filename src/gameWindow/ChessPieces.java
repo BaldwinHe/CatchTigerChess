@@ -26,6 +26,6 @@ public class ChessPieces {
             fileName = "dog.png";
         }
         
-        this.Icon = Toolkit.getDefaultToolkit().getImage("src/imageLibary/" + fileName);
+        this.Icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("imageLibary/" + fileName));
     }
 }

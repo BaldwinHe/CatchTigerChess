@@ -4,8 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/utils/RegretData.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/gameWindow/ChessClick.java</file>
             <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/gameWindow/ChessBoardCanvas.java</file>
             <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/gameWindow/ChessWindow.java</file>
+            <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/gameWindow/ChessPieces.java</file>
             <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/catchtigerchess/CatchTigerChess.java</file>
             <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/gameWindow/ChessBoarder.java</file>
             <file>file:/Users/heyanbai/NetBeansProjects/CatchTigerChess/src/utils/PlayMusic.java</file>

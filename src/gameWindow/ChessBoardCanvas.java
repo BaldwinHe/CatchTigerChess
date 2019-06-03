@@ -29,8 +29,8 @@ public class ChessBoardCanvas extends javax.swing.JPanel {
      */
     public ChessBoardCanvas() {
         initComponents();
-        backgroundImage = Toolkit.getDefaultToolkit().getImage("src/imageLibary/gameBoard.jpg");
-        selectFrame = Toolkit.getDefaultToolkit().getImage("src/imageLibary/frame.png");
+        backgroundImage = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource(Config.BackGroundImage));
+        selectFrame = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource(Config.FrameIcon));
     }
     
     @Override

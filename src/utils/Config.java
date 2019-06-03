@@ -18,6 +18,16 @@ public class Config {
     final static public String GameOverIcon = "/imageLibary/GAMEOVER.png";
     final static public String PeaceIcon = "/imageLibary/peace.png";
     final static public String WinIcon = "/imageLibary/WIN.png";
+    final static public String BackGroundImage = "imageLibary/gameBoard.jpg";
+    final static public String FrameIcon = "imageLibary/frame.png";
+    final static public String BackGroundMusic = "/musicLibary/background.wav";
+    final static public String PlayingMusic = "/musicLibary/playing.wav";
+    final static public String DogMoveMusic = "/musicLibary/dog.wav";
+    final static public String TigerMoveMusic = "/musicLibary/tiger.wav";
+    final static public String EatMusic = "/musicLibary/eat.wav";
+    final static public String TigerWonMusic = "/musicLibary/tigerwon.wav";
+    final static public String DogWonMusic = "/musicLibary/dogwon.wav";
+    final static public String TimeOutMusic = "/musicLibary/timeout.wav";
     final static public boolean[][][][] map;
     
     static {
