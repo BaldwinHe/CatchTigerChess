@@ -8,7 +8,7 @@
 
 > 参考资源 : [图标📈(flaticon)](https://www.flaticon.com) | [音乐🎵(zapsplat)](www.zapsplat.com) | [配音🎤(Google Translate)](https://translate.google.cn)
 
-> Download( CatchTigerChess.jar ) 👉 [[Google Drive]](https://drive.google.com/open?id=1Q1CaD6OfE5tsRKfXNgorg4wl437H2JVQ) | [[百度网盘 `(vh23）` ]](https://pan.baidu.com/s/1MG_kn_5cH1HeQEj2jqxbMA)
+> Download( CatchTigerChess.jar ) 👉 [[Google Drive]](https://drive.google.com/open?id=1Q1CaD6OfE5tsRKfXNgorg4wl437H2JVQ) | [[百度网盘 `(vh23)` ]](https://pan.baidu.com/s/1MG_kn_5cH1HeQEj2jqxbMA)
 ## 游戏介绍  📖
    * 对战双方分别执代表老虎的棋子（1枚）和狗狗的棋子（16枚）。
    * 行棋之前，双方将各自的棋子放置于棋盘上，老虎放在大正方形的中点，狗狗围绕着大正方形放在交点上。
